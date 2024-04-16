@@ -4,9 +4,9 @@ namespace Application.Interfaces.IRecibo
 {
     public interface IReciboQuery
     {
-        Recibo GetById(Guid id);
-        List<Recibo> GetAllByPersonal(Guid idPersonal);
-        List<Recibo> GetAll();
-        List<Recibo> GetAllByDescuento(Guid idDescuento);
+        Receipt GetById(Guid id);
+        List<Receipt> GetAllByPersonal(Guid idPersonal);
+        List<Receipt> GetAll();
+        List<Receipt> GetAllByDescuento(Guid idDescuento);
     }
 }

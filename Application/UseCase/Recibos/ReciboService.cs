@@ -21,7 +21,7 @@ namespace Application.UseCase.Recibos
 
         public ReciboResponse CrearRecibo()
         {
-            Recibo nuevoRecibo = new Recibo
+            Receipt nuevoRecibo = new Receipt
             {
                 precioTotal = 0,
                 IdDescuento = _descuentoService.GetDescuentoVigente().id

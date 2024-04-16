@@ -14,12 +14,12 @@ namespace Infraestructure.Querys
             _context = context;
         }
 
-        public List<Pedido> GetAll()
+        public List<Order> GetAll()
         {
             return _context.Pedidos.ToList();
         }
 
-        public Pedido GetPedidoById(Guid idPedido)
+        public Order GetPedidoById(Guid idPedido)
         {
             var found = _context.Pedidos.FirstOrDefault(p => p.IdPedido == idPedido);
 
@@ -34,13 +34,13 @@ namespace Infraestructure.Querys
             return null;
         }
 
-        public List<Pedido> GetPedidosMenu(Guid idMenu)
+        public List<Order> GetPedidosMenu(Guid idMenu)
         {
             List<Guid> menuPlatillo = _context.MenuPlatillos.Where(mp => mp.IdMenu == idMenu).
                                        Select(mp => mp.IdMenuPlatillo).ToList();
 
             List<Guid> idPedidosDelMenu = new List<Guid>();
-            List<Pedido> pedidosDelMenuEncontrados = new List<Pedido>();
+            List<Order> pedidosDelMenuEncontrados = new List<Order>();
 
             for (int i = 0; i < menuPlatillo.Count; i++)
             {
@@ -62,9 +62,9 @@ namespace Infraestructure.Querys
             return pedidosDelMenuEncontrados;
         }
 
-        public List<Pedido> GetPedidosFiltrado(Guid? idPersonal, DateTime? fechaDesde, DateTime? fechaHasta, int? ultimos)
+        public List<Order> GetPedidosFiltrado(Guid? idPersonal, DateTime? fechaDesde, DateTime? fechaHasta, int? ultimos)
         {
-            IQueryable<Pedido> query = _context.Pedidos.Include(p => p.Personal).Include(p => p.Recibo).AsQueryable();
+            IQueryable<Order> query = _context.Pedidos.Include(p => p.Personal).Include(p => p.Recibo).AsQueryable();
 
             if (idPersonal.HasValue)
             {
@@ -93,7 +93,7 @@ namespace Infraestructure.Querys
                 query = query.OrderByDescending(p => p.FechaDePedido).Take(ultimos.Value);
             }
 
-            List<Pedido> pedidosFiltrados = query.ToList();
+            List<Order> pedidosFiltrados = query.ToList();
 
             return pedidosFiltrados;
         }

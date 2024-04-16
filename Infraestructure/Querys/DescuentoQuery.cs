@@ -13,24 +13,24 @@ namespace Infraestructure.Querys
             _context = context;
         }
 
-        public List<Descuento> GetAll()
+        public List<Discount> GetAll()
         {
             return _context.Descuentos.ToList();
         }
 
-        public Descuento GetByFecha(DateTime fecha)
+        public Discount GetByFecha(DateTime fecha)
         {
             var descuento = _context.Descuentos.Single(d => d.FechaInicioVigencia == fecha);
             return descuento;
         }
 
-        public Descuento GetById(Guid idDescuento)
+        public Discount GetById(Guid idDescuento)
         {
             var descuento = _context.Descuentos.FirstOrDefault(d => d.IdDescuento == idDescuento);
             return descuento;
         }
 
-        public Descuento GetVigente()
+        public Discount GetVigente()
         {
             var vigente = _context.Descuentos.OrderByDescending(d => d.FechaInicioVigencia).FirstOrDefault();
             return vigente;

@@ -13,7 +13,7 @@ namespace Infraestructure.Commands
             _context = context;
         }
 
-        public Recibo CambiarPrecioTotal(Guid idRecibo, decimal precioTotal)
+        public Receipt CambiarPrecioTotal(Guid idRecibo, decimal precioTotal)
         {
             var found = _context.Recibos.FirstOrDefault(r => r.IdRecibo == idRecibo);
 
@@ -28,14 +28,14 @@ namespace Infraestructure.Commands
             return found;
         }
 
-        public Recibo CrearRecibo(Recibo ReciboNuevo)
+        public Receipt CrearRecibo(Receipt ReciboNuevo)
         {
             _context.Add(ReciboNuevo);
             _context.SaveChanges();
             return ReciboNuevo;
         }
 
-        public Recibo EliminarRecibo(Guid idRecibo)
+        public Receipt EliminarRecibo(Guid idRecibo)
         {
             var found = _context.Recibos.FirstOrDefault(r => r.IdRecibo == idRecibo);
 

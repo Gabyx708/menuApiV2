@@ -18,7 +18,7 @@ namespace Application.UseCase.Platillos
 
         public PlatilloResponse CreatePlatillo(PlatilloRequest request)
         {
-            var nuevoPlatillo = new Platillo
+            var nuevoPlatillo = new Dish
             {
                 Descripcion = request.descripcion,
                 Precio = request.precio,

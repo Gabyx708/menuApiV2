@@ -13,22 +13,22 @@ namespace Infraestructure.Querys
             _context = context;
         }
 
-        public List<Recibo> GetAll()
+        public List<Receipt> GetAll()
         {
             return _context.Recibos.ToList();
         }
 
-        public List<Recibo> GetAllByDescuento(Guid idDescuento)
+        public List<Receipt> GetAllByDescuento(Guid idDescuento)
         {
             return _context.Recibos.Where(r => r.IdDescuento == idDescuento).ToList();
         }
 
-        public List<Recibo> GetAllByPersonal(Guid idPersonal)
+        public List<Receipt> GetAllByPersonal(Guid idPersonal)
         {
             throw new NotImplementedException();
         }
 
-        public Recibo GetById(Guid id)
+        public Receipt GetById(Guid id)
         {
             var found = _context.Recibos.FirstOrDefault(r => r.IdRecibo == id);
 

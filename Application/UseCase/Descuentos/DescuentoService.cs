@@ -18,7 +18,7 @@ namespace Application.UseCase.Descuentos
 
         public DescuentoResponse crearDescuento(DescuentoRequest request)
         {
-            var nuevoDescuento = new Descuento
+            var nuevoDescuento = new Discount
             {
                 FechaInicioVigencia = request.fecha_inicio,
                 Porcentaje = request.porcentaje

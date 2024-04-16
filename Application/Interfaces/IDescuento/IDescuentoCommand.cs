@@ -4,7 +4,7 @@ namespace Application.Interfaces.IDescuento
 {
     public interface IDescuentoCommand
     {
-        Descuento createDescuento(Descuento descuento);
+        Discount createDescuento(Discount descuento);
 
     }
 }

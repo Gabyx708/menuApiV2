@@ -14,7 +14,7 @@ namespace Infraestructure.Repositories
             _context = context;
         }
 
-        public AutorizacionPedido CreateAutorizacionPedido(AutorizacionPedido entity)
+        public Authorization CreateAutorizacionPedido(Authorization entity)
         {
             _context.AutorizacionPedidos.Add(entity);
             _context.SaveChanges(); // Guardar los cambios de manera asincrónica en la base de datos
@@ -22,7 +22,7 @@ namespace Infraestructure.Repositories
             return entity; // Devolver la entidad creada
         }
 
-        public AutorizacionPedido DeleteAutorizacionPedido(Guid idPedido, Guid idPersonal)
+        public Authorization DeleteAutorizacionPedido(Guid idPedido, Guid idPersonal)
         {
             var found = _context.AutorizacionPedidos.FirstOrDefault(ap => ap.IdPedido == idPedido && ap.IdPersonal == idPersonal);
 
@@ -36,7 +36,7 @@ namespace Infraestructure.Repositories
             throw new Exception();
         }
 
-        public AutorizacionPedido GetAutorizacionPedidoByidPedido(Guid idPedido)
+        public Authorization GetAutorizacionPedidoByidPedido(Guid idPedido)
         {
             var found = _context.AutorizacionPedidos.FirstOrDefault(ap => ap.IdPedido == idPedido);
 
@@ -48,7 +48,7 @@ namespace Infraestructure.Repositories
             return null;
         }
 
-        public List<AutorizacionPedido> GetAutorizacionesPedidoByIdPersonal(Guid idPersonal)
+        public List<Authorization> GetAutorizacionesPedidoByIdPersonal(Guid idPersonal)
         {
             var autorizaciones = _context.AutorizacionPedidos.Where(ap => ap.IdPersonal == idPersonal).ToList();
             return autorizaciones;

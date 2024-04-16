@@ -78,7 +78,7 @@ namespace Application.UseCase.Personales
             return null;
         }
 
-        public string generateTokenAutentication(Personal usuario)
+        public string generateTokenAutentication(User usuario)
         {
             var now = DateTime.UtcNow;
             var expires = now.AddHours(1); // Define la hora de expiración

@@ -4,6 +4,6 @@ namespace Application.Interfaces.IAuthentication
 {
     public interface IAuthenticacionQuery
     {
-        Personal Autenticarse(string username, string password);
+        User Autenticarse(string username, string password);
     }
 }

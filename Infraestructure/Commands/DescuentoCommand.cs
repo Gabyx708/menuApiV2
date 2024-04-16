@@ -13,7 +13,7 @@ namespace Infraestructure.Commands
             _context = context;
         }
 
-        public Descuento createDescuento(Descuento descuento)
+        public Discount createDescuento(Discount descuento)
         {
             _context.Add(descuento);
             _context.SaveChanges();

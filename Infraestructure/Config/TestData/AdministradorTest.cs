@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infraestructure.Config.TestData
 {
-    public class AdministradorTest : IEntityTypeConfiguration<Personal>
+    public class AdministradorTest : IEntityTypeConfiguration<User>
     {
-        public void Configure(EntityTypeBuilder<Personal> builder)
+        public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.HasData(
 
-                new Personal
+                new User
                 {
                     IdPersonal = Guid.NewGuid(),
                     Nombre = "Administrador",
@@ -26,7 +26,7 @@ namespace Infraestructure.Config.TestData
                     Password = Encrypt256.GetSHA256("ded572vb")
                 },
 
-                new Personal
+                new User
                 {
                     IdPersonal = Guid.NewGuid(),
                     Nombre = "BOT",

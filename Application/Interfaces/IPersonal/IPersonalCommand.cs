@@ -4,7 +4,7 @@ namespace Application.Interfaces.IPersonal
 {
     public interface IPersonalCommand
     {
-        Personal createPersonal(Personal personal);
-        Personal updatePersonal(Guid idPersonal, Personal personal);
+        User createPersonal(User personal);
+        User updatePersonal(Guid idPersonal, User personal);
     }
 }

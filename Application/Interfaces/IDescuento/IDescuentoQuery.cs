@@ -4,10 +4,10 @@ namespace Application.Interfaces.IDescuento
 {
     public interface IDescuentoQuery
     {
-        Descuento GetById(Guid idDescuento);
-        Descuento GetByFecha(DateTime fecha);
-        List<Descuento> GetAll();
-        Descuento GetVigente();
+        Discount GetById(Guid idDescuento);
+        Discount GetByFecha(DateTime fecha);
+        List<Discount> GetAll();
+        Discount GetVigente();
 
     }
 }

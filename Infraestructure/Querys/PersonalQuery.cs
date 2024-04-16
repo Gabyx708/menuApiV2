@@ -13,12 +13,12 @@ namespace Infraestructure.Querys
             _context = context;
         }
 
-        public List<Personal> GetAll()
+        public List<User> GetAll()
         {
             return _context.Personales.ToList();
         }
 
-        public Personal GetPersonalById(Guid idPersonal)
+        public User GetPersonalById(Guid idPersonal)
         {
             var PersonalEncontrado = _context.Personales.FirstOrDefault(p => p.IdPersonal == idPersonal);
 

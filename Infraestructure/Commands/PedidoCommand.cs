@@ -16,14 +16,14 @@ namespace Infraestructure.Commands
             _reciboCommand = reciboCommand;
         }
 
-        public Pedido createPedido(Pedido pedido)
+        public Order createPedido(Order pedido)
         {
             _context.Add(pedido);
             _context.SaveChanges();
             return pedido;
         }
 
-        public Pedido DeletePedido(Guid idPedido)
+        public Order DeletePedido(Guid idPedido)
         {
             var found = _context.Pedidos.FirstOrDefault(p => p.IdPedido == idPedido);
 

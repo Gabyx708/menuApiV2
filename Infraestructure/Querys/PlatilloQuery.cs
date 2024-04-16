@@ -13,7 +13,7 @@ namespace Infraestructure.Querys
             _context = context;
         }
 
-        public Platillo GetPlatilloById(int id)
+        public Dish GetPlatilloById(int id)
         {
             var platilloEncontrado = _context.Platillos.Single(p => p.IdPlatillo == id);
 
@@ -22,7 +22,7 @@ namespace Infraestructure.Querys
             return null;
         }
 
-        public List<Platillo> GetAll()
+        public List<Dish> GetAll()
         {
             return _context.Platillos.ToList();
         }

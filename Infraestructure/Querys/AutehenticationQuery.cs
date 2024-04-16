@@ -14,7 +14,7 @@ namespace Infraestructure.Querys
             _context = context;
         }
 
-        public Personal Autenticarse(string dni, string password)
+        public User Autenticarse(string dni, string password)
         {
             var contrasena = Encrypt256.GetSHA256(password);
             var personal = _context.Personales.FirstOrDefault(p => p.Dni == dni && p.Password == contrasena);

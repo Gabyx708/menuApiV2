@@ -26,7 +26,7 @@ namespace Application.UseCase.Pagos
 
             if (pagoRecuperado == null) { return null; }
 
-            Personal personalDelPago = _personalQuery.GetPersonalById(pagoRecuperado.idPersonal);
+            User personalDelPago = _personalQuery.GetPersonalById(pagoRecuperado.idPersonal);
             string nombrePersonal = personalDelPago.Nombre + " " + personalDelPago.Apellido;
             string dniPersonal = personalDelPago.Dni;
 

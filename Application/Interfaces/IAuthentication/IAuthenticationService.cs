@@ -11,6 +11,6 @@ namespace Application.Interfaces.IAuthentication
         UsuarioLoginResponse autenticarUsuario(UsuarioLoginRequest usuario);
         PersonalResponse changeUserPassword(Guid idUser, PersonalPasswordRequest request);
         PersonalResponse resetPassword(Guid idUser);
-        string generateTokenAutentication(Personal usuario);
+        string generateTokenAutentication(User usuario);
     }
 }

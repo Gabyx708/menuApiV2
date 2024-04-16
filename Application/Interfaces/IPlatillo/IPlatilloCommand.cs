@@ -4,8 +4,8 @@ namespace Application.Interfaces.IPlatillo
 {
     public interface IPlatilloCommand
     {
-        Platillo CreatePlatillo(Platillo platillo);
+        Dish CreatePlatillo(Dish platillo);
 
-        Platillo UpdatePrecio(int idPlatillo, decimal nuevoPrecio);
+        Dish UpdatePrecio(int idPlatillo, decimal nuevoPrecio);
     }
 }

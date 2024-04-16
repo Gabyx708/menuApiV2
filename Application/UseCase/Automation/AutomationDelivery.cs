@@ -22,7 +22,7 @@ namespace Application.Tools.Automation
         private readonly IPedidoService _services;
         private readonly IMenuService _menuService;
         private readonly IPersonalQuery _personalQuery;
-        private readonly List<Personal> _personasMenuAutomatico;
+        private readonly List<User> _personasMenuAutomatico;
         private readonly IPersonalCommand _personalCommand;
         private readonly IPersonalService _personalService;
         private Guid _menuPlatilloId;
@@ -83,7 +83,7 @@ namespace Application.Tools.Automation
                     PedidoResponse pedidoPorBOT = _services.HacerUnpedido(request);
                     Logger.LogInformation("BOT make a order: ID: {@order} USER: {@user}", pedidoPorBOT.idPedido, pedidoPorBOT.Nombre);
 
-                    var nuevaAutorizacion = new AutorizacionPedido
+                    var nuevaAutorizacion = new Authorization
                     {
                         IdPedido = pedidoPorBOT.idPedido,
                         IdPersonal = new Guid(idUsuarioBOT),
@@ -112,7 +112,7 @@ namespace Application.Tools.Automation
 
         public PersonalResponse SetPedidoAutomatico(AutomationRequest request)
         {
-            Personal personal = _personalQuery.GetPersonalById(request.personalId);
+            User personal = _personalQuery.GetPersonalById(request.personalId);
 
             if (personal == null) { return null; }
 

@@ -161,7 +161,7 @@ namespace Application.UseCase.Pedidos
 
             decimal precioTotal = 0;
 
-            Pedido nuevoPedido = new Pedido
+            Order nuevoPedido = new Order
             {
                 IdPersonal = request.idUsuario,
                 FechaDePedido = DateTime.Now,
@@ -219,7 +219,7 @@ namespace Application.UseCase.Pedidos
 
             decimal precioTotal = 0;
 
-            Pedido nuevoPedido = new Pedido
+            Order nuevoPedido = new Order
             {
                 IdPersonal = request.idUsuario,
                 FechaDePedido = DateTime.Now,
@@ -259,7 +259,7 @@ namespace Application.UseCase.Pedidos
 
             _reciboService.CambiarPrecio(nuevoPedido.IdRecibo, precioTotal);
 
-            var autorizacion = new AutorizacionPedido
+            var autorizacion = new Authorization
             {
                 IdPersonal = usuarioPedidor,
                 IdPedido = nuevoPedido.IdPedido
@@ -283,7 +283,7 @@ namespace Application.UseCase.Pedidos
         public List<PedidoGetResponse> PedidoFiltrado(Guid? idPersonal, DateTime? Desde, DateTime? Hasta, int? cantidad)
         {
 
-            List<Pedido> pedidos = _query.GetPedidosFiltrado(idPersonal, Desde, Hasta, cantidad);
+            List<Order> pedidos = _query.GetPedidosFiltrado(idPersonal, Desde, Hasta, cantidad);
             List<PedidoGetResponse> pedidosResponse = new List<PedidoGetResponse>();
 
 

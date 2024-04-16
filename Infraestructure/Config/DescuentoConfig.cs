@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infraestructure.Config
 {
-    public class DescuentoConfig : IEntityTypeConfiguration<Descuento>
+    public class DescuentoConfig : IEntityTypeConfiguration<Discount>
     {
-        public void Configure(EntityTypeBuilder<Descuento> builder)
+        public void Configure(EntityTypeBuilder<Discount> builder)
         {
             builder.ToTable("Descuento");
             builder.HasKey(d => d.IdDescuento);

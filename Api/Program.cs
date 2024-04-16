@@ -94,6 +94,8 @@ namespace Api
                 return;
             }
 
+            builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
             //Personal
             builder.Services.AddScoped<IPersonalCommand, PersonalCommand>();
             builder.Services.AddScoped<IPersonalQuery, PersonalQuery>();

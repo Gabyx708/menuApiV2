@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infraestructure.Config.TestData
 {
-    public class PersonalTest : IEntityTypeConfiguration<Personal>
+    public class PersonalTest : IEntityTypeConfiguration<User>
     {
-        public void Configure(EntityTypeBuilder<Personal> builder)
+        public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.HasData
                 (
-                    new Personal
+                    new User
                     {
                         IdPersonal = Guid.NewGuid(),
                         Nombre = "Juan",
@@ -25,7 +25,7 @@ namespace Infraestructure.Config.TestData
                         Privilegio = 2,
                         Password = Encrypt256.GetSHA256("12345")
                     },
-                    new Personal
+                    new User
                     {
                         IdPersonal = Guid.NewGuid(),
                         Nombre = "María",
@@ -39,7 +39,7 @@ namespace Infraestructure.Config.TestData
                         Privilegio = 2,
                         Password = Encrypt256.GetSHA256("12345")
                     },
-                    new Personal
+                    new User
                     {
                         IdPersonal = Guid.NewGuid(),
                         Nombre = "Carlos",
@@ -53,7 +53,7 @@ namespace Infraestructure.Config.TestData
                         Privilegio = 2,
                         Password = Encrypt256.GetSHA256("12345")
                     },
-                    new Personal
+                    new User
                     {
                         IdPersonal = Guid.NewGuid(),
                         Nombre = "Ana",
@@ -67,7 +67,7 @@ namespace Infraestructure.Config.TestData
                         Privilegio = 2,
                         Password = Encrypt256.GetSHA256("12345")
                     },
-                    new Personal
+                    new User
                     {
                         IdPersonal = Guid.NewGuid(),
                         Nombre = "Pedro",
@@ -81,7 +81,7 @@ namespace Infraestructure.Config.TestData
                         Privilegio = 2,
                         Password = Encrypt256.GetSHA256("12345")
                     },
-                    new Personal
+                    new User
                     {
                         IdPersonal = Guid.NewGuid(),
                         Nombre = "Laura",
@@ -95,7 +95,7 @@ namespace Infraestructure.Config.TestData
                         Privilegio = 2,
                         Password = Encrypt256.GetSHA256("12345")
                     },
-                     new Personal
+                     new User
                      {
                          IdPersonal = Guid.NewGuid(),
                          Nombre = "Diego",
@@ -109,7 +109,7 @@ namespace Infraestructure.Config.TestData
                          Privilegio = 2,
                          Password = Encrypt256.GetSHA256("12345")
                      },
-                     new Personal
+                     new User
                      {
                          IdPersonal = Guid.NewGuid(),
                          Nombre = "Sofía",
@@ -123,7 +123,7 @@ namespace Infraestructure.Config.TestData
                          Privilegio = 2,
                          Password = Encrypt256.GetSHA256("12345")
                      },
-                     new Personal
+                     new User
                      {
                          IdPersonal = Guid.NewGuid(),
                          Nombre = "Javier",
@@ -137,7 +137,7 @@ namespace Infraestructure.Config.TestData
                          Privilegio = 2,
                          Password = Encrypt256.GetSHA256("12345")
                      },
-                     new Personal
+                     new User
                      {
                          IdPersonal = Guid.NewGuid(),
                          Nombre = "Isabella",

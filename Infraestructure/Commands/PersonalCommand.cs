@@ -13,7 +13,7 @@ namespace Infraestructure.Commands
             _context = context;
         }
 
-        public Personal createPersonal(Personal personal)
+        public User createPersonal(User personal)
         {
             var existPersonalDni = _context.Personales.FirstOrDefault(p => p.Dni == personal.Dni);
 
@@ -27,7 +27,7 @@ namespace Infraestructure.Commands
             return personal;
         }
 
-        public Personal updatePersonal(Guid idPersonal, Personal personal)
+        public User updatePersonal(Guid idPersonal, User personal)
         {
             var personalOriginal = _context.Personales.Single(p => p.IdPersonal == idPersonal);
 

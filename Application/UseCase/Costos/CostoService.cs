@@ -25,7 +25,7 @@ namespace Application.UseCase.Costos
 
         public CostoDiaResponse GetCostosDia(DateTime fecha)
         {
-            List<Pedido> pedidosDelDia = _pedidoQuery.GetPedidosFiltrado(null, fecha, fecha, null);
+            List<Order> pedidosDelDia = _pedidoQuery.GetPedidosFiltrado(null, fecha, fecha, null);
 
             int CantidadDePedidos = 0;
             decimal Costototal = 0;
@@ -33,7 +33,7 @@ namespace Application.UseCase.Costos
 
             foreach (var pedido in pedidosDelDia)
             {
-                Recibo reciboDelPedido = _reciboQuery.GetById(pedido.IdRecibo);
+                Receipt reciboDelPedido = _reciboQuery.GetById(pedido.IdRecibo);
                 decimal descuentoDelPedido = _descuentoQuery.GetById(reciboDelPedido.IdDescuento).Porcentaje;
                 CostototalDescuento = CalcularDescuento(reciboDelPedido.precioTotal, descuentoDelPedido) + CostototalDescuento;
                 Costototal = reciboDelPedido.precioTotal + Costototal;
@@ -51,7 +51,7 @@ namespace Application.UseCase.Costos
 
         public CostoPeriodoResponse GetCostosPeriodo(DateTime fechaInicio, DateTime fechaFin)
         {
-            List<Pedido> pedidosDelDia = _pedidoQuery.GetPedidosFiltrado(null, fechaInicio, fechaFin, null);
+            List<Order> pedidosDelDia = _pedidoQuery.GetPedidosFiltrado(null, fechaInicio, fechaFin, null);
 
             if (pedidosDelDia.Count == 0)
             {
@@ -64,7 +64,7 @@ namespace Application.UseCase.Costos
 
             foreach (var pedido in pedidosDelDia)
             {
-                Recibo reciboDelPedido = _reciboQuery.GetById(pedido.IdRecibo);
+                Receipt reciboDelPedido = _reciboQuery.GetById(pedido.IdRecibo);
                 decimal descuentoDelPedido = _descuentoQuery.GetById(reciboDelPedido.IdDescuento).Porcentaje;
                 CostototalDescuento = CalcularDescuento(reciboDelPedido.precioTotal, descuentoDelPedido) + CostototalDescuento;
                 Costototal = reciboDelPedido.precioTotal + Costototal;
@@ -82,8 +82,8 @@ namespace Application.UseCase.Costos
 
         public CostoPersonalResponse GetCostosPersonal(DateTime fechaInicio, DateTime fechaHasta, Guid idPersonal)
         {
-            Personal persona = _personalQuery.GetPersonalById(idPersonal);
-            List<Pedido> pedidosDelDia = _pedidoQuery.GetPedidosFiltrado(idPersonal, fechaInicio, fechaHasta, null);
+            User persona = _personalQuery.GetPersonalById(idPersonal);
+            List<Order> pedidosDelDia = _pedidoQuery.GetPedidosFiltrado(idPersonal, fechaInicio, fechaHasta, null);
 
             if (pedidosDelDia.Count == 0)
             {
@@ -97,7 +97,7 @@ namespace Application.UseCase.Costos
 
             foreach (var pedido in pedidosDelDia)
             {
-                Recibo reciboDelPedido = _reciboQuery.GetById(pedido.IdRecibo);
+                Receipt reciboDelPedido = _reciboQuery.GetById(pedido.IdRecibo);
                 decimal descuentoDelPedido = _descuentoQuery.GetById(reciboDelPedido.IdDescuento).Porcentaje;
                 CostototalDescuento = CalcularDescuento(reciboDelPedido.precioTotal, descuentoDelPedido) + CostototalDescuento;
                 Costototal = reciboDelPedido.precioTotal + Costototal;

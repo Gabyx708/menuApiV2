@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infraestructure.Config
 {
-    public class ReciboConfig : IEntityTypeConfiguration<Recibo>
+    public class ReciboConfig : IEntityTypeConfiguration<Receipt>
     {
-        public void Configure(EntityTypeBuilder<Recibo> builder)
+        public void Configure(EntityTypeBuilder<Receipt> builder)
         {
             builder.ToTable("Recibo");
             builder.HasKey(r => r.IdRecibo);

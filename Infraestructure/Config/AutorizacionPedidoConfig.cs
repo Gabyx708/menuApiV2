@@ -4,16 +4,16 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infraestructure.Config
 {
-    public class AutorizacionPedidoConfig : IEntityTypeConfiguration<AutorizacionPedido>
+    public class AutorizacionPedidoConfig : IEntityTypeConfiguration<Authorization>
     {
-        public void Configure(EntityTypeBuilder<AutorizacionPedido> builder)
+        public void Configure(EntityTypeBuilder<Authorization> builder)
         {
             builder.ToTable("AutorizacionPedido");
 
             builder.HasKey(ap => new { ap.IdPedido, ap.IdPersonal });
             builder.HasOne(ap => ap.Pedido)
                 .WithOne(p => p.AutorizacionPedido)
-                .HasForeignKey<AutorizacionPedido>(ap => ap.IdPedido);
+                .HasForeignKey<Authorization>(ap => ap.IdPedido);
 
             builder.HasOne(ap => ap.Personal)
                 .WithMany()

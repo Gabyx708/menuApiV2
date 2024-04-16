@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infraestructure.Config.TestData
 {
-    public class DescuentoTest : IEntityTypeConfiguration<Descuento>
+    public class DescuentoTest : IEntityTypeConfiguration<Discount>
     {
-        public void Configure(EntityTypeBuilder<Descuento> builder)
+        public void Configure(EntityTypeBuilder<Discount> builder)
         {
             builder.HasData(
 
-                new Descuento
+                new Discount
                 {
                     IdDescuento = Guid.NewGuid(),
                     FechaInicioVigencia = DateTime.Now,

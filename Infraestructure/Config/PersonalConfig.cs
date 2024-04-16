@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infraestructure.Config
 {
-    public class PersonalConfig : IEntityTypeConfiguration<Personal>
+    public class PersonalConfig : IEntityTypeConfiguration<User>
     {
-        public void Configure(EntityTypeBuilder<Personal> entityBuilder)
+        public void Configure(EntityTypeBuilder<User> entityBuilder)
         {
             entityBuilder.ToTable("Personal");
             entityBuilder.HasKey(p => p.IdPersonal);

@@ -14,16 +14,16 @@ namespace Infraestructure.Persistence
         }
 
 
-        public DbSet<Personal> Personales { get; set; }
-        public DbSet<Pedido> Pedidos { get; set; }
-        public DbSet<Recibo> Recibos { get; set; }
-        public DbSet<Descuento> Descuentos { get; set; }
+        public DbSet<User> Personales { get; set; }
+        public DbSet<Order> Pedidos { get; set; }
+        public DbSet<Receipt> Recibos { get; set; }
+        public DbSet<Discount> Descuentos { get; set; }
         public DbSet<PedidoPorMenuPlatillo> PedidosPorMenuPlatillo { get; set; }
         public DbSet<MenuPlatillo> MenuPlatillos { get; set; }
-        public DbSet<Platillo> Platillos { get; set; }
+        public DbSet<Dish> Platillos { get; set; }
         public DbSet<Menu> Menues { get; set; }
         public DbSet<Pago> Pagos { get; set; }
-        public DbSet<AutorizacionPedido> AutorizacionPedidos { get; set; }
+        public DbSet<Authorization> AutorizacionPedidos { get; set; }
 
 
         //config

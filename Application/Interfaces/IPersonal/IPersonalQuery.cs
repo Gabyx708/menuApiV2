@@ -4,7 +4,7 @@ namespace Application.Interfaces.IPersonal
 {
     public interface IPersonalQuery
     {
-        Personal GetPersonalById(Guid idPersonal);
-        List<Personal> GetAll();
+        User GetPersonalById(Guid idPersonal);
+        List<User> GetAll();
     }
 }

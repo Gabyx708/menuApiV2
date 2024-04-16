@@ -19,7 +19,7 @@ namespace Application.UseCase.Personales
 
         public PersonalResponse createPersonal(PersonalRequest personalNuevo)
         {
-            var nuevoPersonal = new Personal
+            var nuevoPersonal = new User
             {
                 Nombre = personalNuevo.nombre,
                 Apellido = personalNuevo.apellido,
@@ -91,7 +91,7 @@ namespace Application.UseCase.Personales
         public PersonalResponse UpdatePersonal(Guid personalId, PersonalRequest personal)
         {
 
-            var personalCambiado = new Personal
+            var personalCambiado = new User
             {
                 Nombre = personal.nombre,
                 Apellido = personal.apellido,

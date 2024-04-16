@@ -4,10 +4,10 @@ namespace Application.Interfaces.IRecibo
 {
     public interface IReciboCommand
     {
-        Recibo CrearRecibo(Recibo ReciboNuevo);
+        Receipt CrearRecibo(Receipt ReciboNuevo);
 
-        Recibo EliminarRecibo(Guid idRecibo);
+        Receipt EliminarRecibo(Guid idRecibo);
 
-        Recibo CambiarPrecioTotal(Guid idRecibo, decimal precioTotal);
+        Receipt CambiarPrecioTotal(Guid idRecibo, decimal precioTotal);
     }
 }
