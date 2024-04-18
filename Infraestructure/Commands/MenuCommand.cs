@@ -13,15 +13,7 @@ namespace Infraestructure.Commands
             _context = context;
         }
 
-        public Menu AsignarPlatillo(MenuPlatillo platillo)
-        {
-
-            _context.MenuPlatillos.Add(platillo);
-            _context.SaveChanges();
-            return _context.Menues.Single(m => m.IdMenu == platillo.IdMenu);
-        }
-
-        public Menu CreateMenu(Menu menu)
+        public Menu InsertMenu(Menu menu)
         {
             _context.Add(menu);
             _context.SaveChanges();

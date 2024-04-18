@@ -1,6 +1,6 @@
-﻿namespace Application.Response.MenuPlatilloResponses
+﻿namespace Application.Response.MenuOptionResponses
 {
-    public class MenuPlatilloResponse
+    public class MenuOptionResponse
     {
         public int id { get; set; }
         public decimal precio { get; set; }

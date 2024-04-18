@@ -3,16 +3,15 @@
     public class Order
     {
         public Guid IdOrder { get; set; }
-        public Guid IdUser { get; set; }
-        public Guid IdReceipt { get; set; }
         public DateTime OrderDate { get; set; }
-        public int StatusCode { get; set; }
+        public int StateCode { get; set; }
+        public State State { get; set; } = null!;
+        public Guid IdUser { get; set; }
         public User User { get; set; } = null!;
-        public Receipt Receipt { get; set; } = null!;
-        public Authorization? AutorizacionPedido { get; set; }
+        public Receipt? Receipt { get; set; }
+        public Authorization? Authorization { get; set; }
 
-
-        public IList<PedidoPorMenuPlatillo> PedidosPorMenuPlatillo { get; set; }
-
+        public ICollection<OrderItem> Items { get; set; } = null!;
+        public ICollection<Transition> Transitions { get; set; } = null!;
     }
 }

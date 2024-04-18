@@ -1,4 +1,4 @@
-﻿using Application.Response.MenuPlatilloResponses;
+﻿using Application.Response;
 
 namespace Application.Response.MenuResponses
 {
@@ -9,6 +9,6 @@ namespace Application.Response.MenuResponses
         public DateTime fecha_carga { get; set; }
         public DateTime fecha_cierre { get; set; }
 
-        public List<MenuPlatilloGetResponse> platillos { get; set; }
+        public List<MenuOptionGetResponse> platillos { get; set; }
     }
 }

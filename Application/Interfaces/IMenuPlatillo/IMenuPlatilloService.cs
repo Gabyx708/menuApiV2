@@ -1,14 +1,15 @@
-﻿using Application.Request.MenuPlatilloRequests;
-using Application.Response.MenuPlatilloResponses;
+﻿using Application.Request.
+    Requests;
+using Application.Response.MenuOptionResponses;
 
-namespace Application.Interfaces.IMenuPlatillo
+namespace Application.Interfaces.IMenuOption
 {
-    public interface IMenuPlatilloService
+    public interface IMenuOptionService
     {
-        MenuPlatilloResponse GetMenuPlatilloById(Guid id);
-        List<MenuPlatilloGetResponse> GetMenuPlatilloDelMenu(Guid idMenu);
+        MenuOptionResponse GetMenuOptionById(Guid id);
+        List<MenuOptionGetResponse> GetMenuOptionDelMenu(Guid idMenu);
 
-        List<MenuPlatilloResponse> AsignarPlatillosAMenu(Guid idMenu, List<MenuPlatilloRequest> platillos);
-        MenuPlatilloResponse ModificarMenuPlatillo(Guid idMenuPlatillo, MenuPlatilloRequest menuPlatillo);
+        List<MenuOptionResponse> AsignarPlatillosAMenu(Guid idMenu, List<MenuOptionRequest> platillos);
+        MenuOptionResponse ModificarMenuOption(Guid idMenuOption, MenuOptionRequest MenuOption);
     }
 }

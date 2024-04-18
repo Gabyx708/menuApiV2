@@ -1,11 +1,12 @@
 ﻿using Domain.Entities;
 
-namespace Application.Interfaces.IPedidoPorMenuPlatillo
-{
-    public interface IPedidoPorMenuPlatilloCommand
-    {
-        PedidoPorMenuPlatillo CreatePedidoPorMenuPlatillo(PedidoPorMenuPlatillo pedidoPorMenuPlatillo);
+namespace Application.Interfaces.IPedidoPor
 
-        PedidoPorMenuPlatillo DeletePedidoPorMenuPlatillo(Guid idPedidoPorMenuPlatillo);
+{
+    public interface IPedidoPorMenuOptionCommand
+    {
+        PedidoPorMenuOption CreatePedidoPorMenuOption(PedidoPorMenuOption pedidoPorMenuOption);
+
+        PedidoPorMenuOption DeletePedidoPorMenuOption(Guid idPedidoPorMenuOption);
     }
 }

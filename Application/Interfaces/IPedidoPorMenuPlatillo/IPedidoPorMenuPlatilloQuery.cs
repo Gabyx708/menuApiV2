@@ -1,13 +1,14 @@
 ﻿using Domain.Entities;
 
-namespace Application.Interfaces.IPedidoPorMenuPlatillo
+namespace Application.Interfaces.IPedidoPor
+
 {
-    public interface IPedidoPorMenuPlatilloQuery
+    public interface IPedidoPorMenuOptionQuery
     {
-        PedidoPorMenuPlatillo GetPedidoPorMenuPlatillo(Guid idPedido, Guid idMenuPlatillo);
+        PedidoPorMenuOption GetPedidoPorMenuOption(Guid idPedido, Guid idMenuOption);
 
-        List<PedidoPorMenuPlatillo> GetPedidoMenuPlatilloByMenu(Guid idMenu);
+        List<PedidoPorMenuOption> GetPedidoMenuOptionByMenu(Guid idMenu);
 
-        List<PedidoPorMenuPlatillo> GetPedidoMenuPlatilloByPedido(Guid idPedido);
+        List<PedidoPorMenuOption> GetPedidoMenuOptionByPedido(Guid idPedido);
     }
 }

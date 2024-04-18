@@ -1,80 +1,80 @@
-﻿using Application.Interfaces.IPedidoPorMenuPlatillo;
+﻿using Application.Interfaces.IPedidoPor;
 using Application.Request.PedidoRequests;
-using Application.Response.PedidoPorMenuPlatilloResponses;
+using Application.Response.PedidoPorMenuOptionResponses;
 using Domain.Entities;
 
-namespace Application.UseCase.PedidoPorMenuPlatillos
+namespace Application.UseCase.PedidoPorMenuOptions
 {
-    public class PedidoPorMenuPlatilloService : IPedidoPorMenuPlatilloService
+    public class PedidoPorMenuOptionService : IPedidoPorMenuOptionService
     {
-        private readonly IPedidoPorMenuPlatilloQuery _query;
-        private readonly IPedidoPorMenuPlatilloCommand _command;
+        private readonly IPedidoPorMenuOptionQuery _query;
+        private readonly IPedidoPorMenuOptionCommand _command;
 
-        public PedidoPorMenuPlatilloService(IPedidoPorMenuPlatilloQuery query, IPedidoPorMenuPlatilloCommand command)
+        public PedidoPorMenuOptionService(IPedidoPorMenuOptionQuery query, IPedidoPorMenuOptionCommand command)
         {
             _query = query;
             _command = command;
         }
 
-        public PedidoPorMenuPlatilloResponse CreatePedidoPorMenuPlatillo(PedidoPorMenuPlatilloRequest request)
+        public PedidoPorMenuOptionResponse CreatePedidoPorMenuOption(PedidoPorMenuOptionRequest request)
         {
-            PedidoPorMenuPlatillo nuevoPedidoPorMenuPlatillo = new PedidoPorMenuPlatillo
+            PedidoPorMenuOption nuevoPedidoPorMenuOption = new PedidoPorMenuOption
             {
                 IdPedido = request.idPedido,
-                IdMenuPlatillo = request.idMenuPlatillo
+                IdMenuOption = request.idMenuOption
             };
 
-            _command.CreatePedidoPorMenuPlatillo(nuevoPedidoPorMenuPlatillo);
-            return GetPedidoPorMenuPlatillo(nuevoPedidoPorMenuPlatillo.IdPedido, nuevoPedidoPorMenuPlatillo.IdMenuPlatillo);
+            _command.CreatePedidoPorMenuOption(nuevoPedidoPorMenuOption);
+            return GetPedidoPorMenuOption(nuevoPedidoPorMenuOption.IdPedido, nuevoPedidoPorMenuOption.IdMenuOption);
         }
 
-        public PedidoPorMenuPlatilloResponse DeletePedidoPorMenuPlatillo(Guid idPedido, Guid idMenuPlatilo)
+        public PedidoPorMenuOptionResponse DeletePedidoPorMenuOption(Guid idPedido, Guid idMenuPlatilo)
         {
             throw new NotImplementedException();
         }
 
-        public PedidoPorMenuPlatilloResponse GetPedidoPorMenuPlatillo(Guid idPedido, Guid idMenuPlatillo)
+        public PedidoPorMenuOptionResponse GetPedidoPorMenuOption(Guid idPedido, Guid idMenuOption)
         {
-            var found = _query.GetPedidoPorMenuPlatillo(idPedido, idMenuPlatillo);
+            var found = _query.GetPedidoPorMenuOption(idPedido, idMenuOption);
 
             if (found != null)
             {
-                return new PedidoPorMenuPlatilloResponse
+                return new PedidoPorMenuOptionResponse
                 {
                     IdPedido = idPedido,
-                    IdMenuPlatillo = idMenuPlatillo
+                    IdMenuOption = idMenuOption
                 };
             }
 
             return null;
         }
 
-        public List<PedidoPorMenuPlatilloResponse> GetPedidoPorMenuPlatilloDeMenu(Guid idMenu)
+        public List<PedidoPorMenuOptionResponse> GetPedidoPorMenuOptionDeMenu(Guid idMenu)
         {
-            List<PedidoPorMenuPlatillo> pedidoPorMenuPlatillos = _query.GetPedidoMenuPlatilloByMenu(idMenu);
-            List<PedidoPorMenuPlatilloResponse> pedidoPorMenuPlatilloResponses = new List<PedidoPorMenuPlatilloResponse>();
+            List<PedidoPorMenuOption> pedidoPorMenuOptions = _query.GetPedidoMenuOptionByMenu(idMenu);
+            List<PedidoPorMenuOptionResponse> pedidoPorMenuOptionResponses = new List<PedidoPorMenuOptionResponse>();
 
-            foreach (var pedidoPorMenuPlatillo in pedidoPorMenuPlatillos)
+            foreach (var pedidoPorMenuOption in pedidoPorMenuOptions)
             {
-                var pedidoPorMenu = GetPedidoPorMenuPlatillo(pedidoPorMenuPlatillo.IdPedido, pedidoPorMenuPlatillo.IdMenuPlatillo);
-                pedidoPorMenuPlatilloResponses.Add(pedidoPorMenu);
+                var pedidoPorMenu = GetPedidoPorMenuOption(pedidoPorMenuOption.IdPedido, pedidoPorMenuOption.IdMenuOption);
+                pedidoPorMenuOptionResponses.Add(pedidoPorMenu);
             }
 
-            return pedidoPorMenuPlatilloResponses;
+            return pedidoPorMenuOptionResponses;
         }
 
-        public List<PedidoPorMenuPlatilloResponse> GetPedidosMenuPlatilloDePedido(Guid idPedido)
+        public List<PedidoPorMenuOptionResponse> GetPedidosMenuOptionDePedido(Guid idPedido)
         {
-            List<PedidoPorMenuPlatillo> pedidoPorMenuPlatillos = _query.GetPedidoMenuPlatilloByPedido(idPedido);
-            List<PedidoPorMenuPlatilloResponse> pedidoPorMenuPlatilloResponses = new List<PedidoPorMenuPlatilloResponse>();
+            List<PedidoPorMenuOption> pedidoPorMenuOptions = _query.GetPedidoMenuOptionByPedido(idPedido);
+            List<PedidoPorMenuOptionResponse> pedidoPorMenuOptionResponses = new List<PedidoPorMenuOptionResponse>();
 
-            foreach (var pedidoPorMenuPlatillo in pedidoPorMenuPlatillos)
+            foreach (var pedidoPorMenuOption in pedidoPorMenuOptions)
             {
-                var pedidoPorMenu = GetPedidoPorMenuPlatillo(pedidoPorMenuPlatillo.IdPedido, pedidoPorMenuPlatillo.IdMenuPlatillo);
-                pedidoPorMenuPlatilloResponses.Add(pedidoPorMenu);
+                var pedidoPorMenu = GetPedidoPorMenuOption(pedidoPorMenuOption.IdPedido, pedidoPorMenuOption.IdMenuOption);
+                pedidoPorMenuOptionResponses.Add(pedidoPorMenu);
             }
 
-            return pedidoPorMenuPlatilloResponses;
+            return pedidoPorMenuOptionResponses;
         }
 
     }

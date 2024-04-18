@@ -4,10 +4,7 @@ namespace Application.Interfaces.IMenu
 {
     public interface IMenuCommand
     {
-        Menu CreateMenu(Menu menu);
-
-        Menu AsignarPlatillo(MenuPlatillo platillo);
+        Menu InsertMenu(Menu menu);
         Menu DeleteMenu(Menu menu);
-
     }
 }

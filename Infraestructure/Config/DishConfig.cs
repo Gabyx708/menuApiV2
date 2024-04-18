@@ -4,14 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infraestructure.Config
 {
-    public class PlatilloConfig : IEntityTypeConfiguration<Dish>
+    internal class DishConfig : IEntityTypeConfiguration<Dish>
     {
         public void Configure(EntityTypeBuilder<Dish> builder)
         {
-            builder.ToTable("Platillo");
-            builder.HasKey(p => p.IdPlatillo);
+            builder.HasKey(p => p.IdDish);
 
-            builder.Property(p => p.IdPlatillo).ValueGeneratedOnAdd();
+            builder.Property(p => p.IdDish).ValueGeneratedOnAdd();
         }
     }
 }

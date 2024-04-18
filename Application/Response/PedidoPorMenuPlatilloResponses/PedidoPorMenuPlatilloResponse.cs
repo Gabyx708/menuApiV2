@@ -1,8 +1,8 @@
-﻿namespace Application.Response.PedidoPorMenuPlatilloResponses
+﻿namespace Application.Response.PedidoPorResponses
 {
-    public class PedidoPorMenuPlatilloResponse
+    public class PedidoPorMenuOptionResponse
     {
         public Guid IdPedido { get; set; }
-        public Guid IdMenuPlatillo { get; set; }
+        public Guid IdMenuOption { get; set; }
     }
 }

@@ -1,13 +1,13 @@
 ﻿using Domain.Entities;
 
-namespace Application.Interfaces.IMenuPlatillo
+namespace Application.Interfaces.IMenuOption
 {
-    public interface IMenuPlatilloCommand
+    public interface IMenuOptionCommand
     {
-        MenuPlatillo CreateMenuPlatillo(MenuPlatillo menuPlatillo);
+        MenuOption CreateMenuOption(MenuOption MenuOption);
 
-        MenuPlatillo AsignarPlatilloAMenu(Guid idMenu, int idPlatillo, int stock);
-        MenuPlatillo UpdateMenuPlatillo(Guid id, MenuPlatillo menuPlatillo);
+        MenuOption AsignarPlatilloAMenu(Guid idMenu, int idPlatillo, int stock);
+        MenuOption UpdateMenuOption(Guid id, MenuOption MenuOption);
 
     }
 }

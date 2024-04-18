@@ -1,10 +1,11 @@
 ﻿using Domain.Entities;
 
-namespace Application.Interfaces.IMenuPlatillo
+namespace Application.Interfaces.I
+
 {
-    public interface IMenuPlatilloQuery
+    public interface IMenuOptionQuery
     {
-        List<MenuPlatillo> GetMenuPlatilloByMenuId(Guid idMenu);
-        MenuPlatillo GetById(Guid idMenuPlatillo);
+        List<MenuOption> GetMenuOptionByMenuId(Guid idMenu);
+        MenuOption GetById(Guid idMenuOption);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Application.Interfaces.IMenu;
-using Application.Interfaces.IMenuPlatillo;
 using Application.Request.MenuRequests;
 using Application.Response.MenuResponses;
 using Application.Tools.Log;
@@ -11,41 +10,41 @@ namespace Application.UseCase.Menues
     {
         private readonly IMenuCommand _command;
         private readonly IMenuQuery _query;
-        private readonly IMenuPlatilloService _serviceMenuPlatillo;
+        private readonly IMenuOptionService _serviceMenuOption;
 
-        public MenuService(IMenuCommand command, IMenuQuery query, IMenuPlatilloService serviceMenuPlatillo)
+        public MenuService(IMenuCommand command, IMenuQuery query, IMenuOptionService serviceMenuOption)
         {
             _command = command;
             _query = query;
-            _serviceMenuPlatillo = serviceMenuPlatillo;
+            _serviceMenuOption = serviceMenuOption;
         }
 
         public MenuResponse CreateMenu(MenuRequest request)
         {
             var nuevoMenu = new Menu
             {
-                FechaConsumo = request.fecha_consumo,
-                FechaCierre = request.fecha_cierre,
-                FechaCarga = DateTime.Now
+                EatingDate = request.fecha_consumo,
+                CloseDate = request.fecha_cierre,
+                UploadDate = DateTime.Now
             };
 
-            if (nuevoMenu.FechaConsumo < nuevoMenu.FechaCarga || nuevoMenu.FechaConsumo < nuevoMenu.FechaCierre)
+            if (nuevoMenu.EatingDate < nuevoMenu.UploadDate || nuevoMenu.EatingDate < nuevoMenu.CloseDate)
             {
                 throw new InvalidOperationException();
             }
 
-            _command.CreateMenu(nuevoMenu);
+            _command.InsertMenu(nuevoMenu);
             Logger.LogInformation("create new menu: {@menu}", nuevoMenu);
 
-            _serviceMenuPlatillo.AsignarPlatillosAMenu(nuevoMenu.IdMenu, request.platillosDelMenu);
+            _serviceMenuOption.AsignarPlatillosAMenu(nuevoMenu.IdMenu, request.platillosDelMenu);
 
             return new MenuResponse
             {
                 id = nuevoMenu.IdMenu,
-                fecha_consumo = nuevoMenu.FechaConsumo,
-                fecha_carga = nuevoMenu.FechaCarga,
-                fecha_cierre = nuevoMenu.FechaCierre,
-                platillos = _serviceMenuPlatillo.GetMenuPlatilloDelMenu(nuevoMenu.IdMenu)
+                fecha_consumo = nuevoMenu.EatingDate,
+                fecha_carga = nuevoMenu.UploadDate,
+                fecha_cierre = nuevoMenu.CloseDate,
+                platillos = _serviceMenuOption.GetMenuOptionDelMenu(nuevoMenu.IdMenu)
             };
         }
 
@@ -56,20 +55,20 @@ namespace Application.UseCase.Menues
             return new MenuResponse
             {
                 id = menuRecuperado.IdMenu,
-                fecha_consumo = menuRecuperado.FechaConsumo,
-                fecha_carga = menuRecuperado.FechaCarga,
-                fecha_cierre = menuRecuperado.FechaCierre,
-                platillos = _serviceMenuPlatillo.GetMenuPlatilloDelMenu(menuRecuperado.IdMenu)
+                fecha_consumo = menuRecuperado.EatingDate,
+                fecha_carga = menuRecuperado.UploadDate,
+                fecha_cierre = menuRecuperado.CloseDate,
+                platillos = _serviceMenuOption.GetMenuOptionDelMenu(menuRecuperado.IdMenu)
             };
         }
 
         public MenuResponse GetUltimoMenu()
         {
-            var menuFechaConsumo = _query.GetUltimoMenu();
+            var menuEatingDate = _query.GetUltimoMenu();
 
-            if (menuFechaConsumo != null)
+            if (menuEatingDate != null)
             {
-                return GetMenuById(menuFechaConsumo.IdMenu);
+                return GetMenuById(menuEatingDate.IdMenu);
             }
 
             return null;

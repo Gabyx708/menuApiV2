@@ -4,12 +4,16 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infraestructure.Config
 {
-    public class MenuConfig : IEntityTypeConfiguration<Menu>
+    internal class MenuConfig : IEntityTypeConfiguration<Menu>
     {
         public void Configure(EntityTypeBuilder<Menu> builder)
         {
-            builder.ToTable("Menu");
             builder.HasKey(m => m.IdMenu);
+
+            builder.Property(m => m.UploadDate).IsRequired();
+            builder.Property(m => m.CloseDate).IsRequired();
+            builder.Property(m => m.EatingDate).IsRequired();
+                         
         }
     }
 }

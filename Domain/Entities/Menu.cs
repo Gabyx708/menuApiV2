@@ -7,6 +7,6 @@
         public DateTime UploadDate { get; set; }
         public DateTime CloseDate { get; set; }
 
-        public IList<MenuPlatillo> MenuPlatillos { get; set; }
+        public ICollection<MenuOption> Options { get; set; } = null!;
     }
 }

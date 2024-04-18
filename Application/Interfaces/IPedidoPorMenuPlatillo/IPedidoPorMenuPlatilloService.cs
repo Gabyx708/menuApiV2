@@ -1,17 +1,17 @@
 ﻿using Application.Request.PedidoRequests;
-using Application.Response.PedidoPorMenuPlatilloResponses;
+using Application.Response.PedidoPorMenuOptionResponses;
 
-namespace Application.Interfaces.IPedidoPorMenuPlatillo
+namespace Application.Interfaces.IPedidoPorMenuOption
 {
-    public interface IPedidoPorMenuPlatilloService
+    public interface IPedidoPorMenuOptionService
     {
-        PedidoPorMenuPlatilloResponse GetPedidoPorMenuPlatillo(Guid idPedido, Guid idMenuPlatilo);
-        PedidoPorMenuPlatilloResponse CreatePedidoPorMenuPlatillo(PedidoPorMenuPlatilloRequest request);
+        PedidoPorMenuOptionResponse GetPedidoPorMenuOption(Guid idPedido, Guid idMenuPlatilo);
+        PedidoPorMenuOptionResponse CreatePedidoPorMenuOption(PedidoPorMenuOptionRequest request);
 
-        List<PedidoPorMenuPlatilloResponse> GetPedidosMenuPlatilloDePedido(Guid idPedido);
+        List<PedidoPorMenuOptionResponse> GetPedidosMenuOptionDePedido(Guid idPedido);
 
-        List<PedidoPorMenuPlatilloResponse> GetPedidoPorMenuPlatilloDeMenu(Guid idMenu);
+        List<PedidoPorMenuOptionResponse> GetPedidoPorMenuOptionDeMenu(Guid idMenu);
 
-        PedidoPorMenuPlatilloResponse DeletePedidoPorMenuPlatillo(Guid idPedido, Guid idMenuPlatilo);
+        PedidoPorMenuOptionResponse DeletePedidoPorMenuOption(Guid idPedido, Guid idMenuPlatilo);
     }
 }

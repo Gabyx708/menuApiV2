@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "MenuApi": {
+    "Api": {
       "commandName": "Project",
       "commandLineArgs": "ASPNETCORE_ENVIROMENT=Development",
       "launchBrowser": true,

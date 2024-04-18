@@ -6,8 +6,9 @@ namespace Application.Interfaces.IMenu
     {
         Menu GetMenuById(Guid idMenu);
 
-        List<MenuPlatillo> PlatillosDelMenu(Guid idMenu);
-        Menu GetByDateConsumo(DateTime fechaConsumo);
+        List<
+            > PlatillosDelMenu(Guid idMenu);
+        Menu GetByDateConsumo(DateTime EatingDate);
         Menu GetUltimoMenu();
 
 

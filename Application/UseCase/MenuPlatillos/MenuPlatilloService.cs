@@ -1,37 +1,37 @@
-﻿using Application.Interfaces.IMenuPlatillo;
+﻿using Application.Interfaces.IMenuOption;
 using Application.Interfaces.IPlatillo;
-using Application.Request.MenuPlatilloRequests;
-using Application.Response.MenuPlatilloResponses;
+using Application.Request.MenuOptionRequests;
+using Application.Response.MenuOptionResponses;
 using Domain.Entities;
 
-namespace Application.UseCase.MenuPlatillos
+namespace Application.UseCase.MenuOptions
 {
-    public class MenuPlatilloService : IMenuPlatilloService
+    public class MenuOptionService : IMenuOptionService
     {
-        private readonly IMenuPlatilloQuery _query;
-        private readonly IMenuPlatilloCommand _command;
+        private readonly IMenuOptionQuery _query;
+        private readonly IMenuOptionCommand _command;
         private readonly IPlatilloService _platilloService;
 
-        public MenuPlatilloService(IMenuPlatilloQuery query, IMenuPlatilloCommand command, IPlatilloService platilloService)
+        public MenuOptionService(IMenuOptionQuery query, IMenuOptionCommand command, IPlatilloService platilloService)
         {
             _query = query;
             _command = command;
             _platilloService = platilloService;
         }
 
-        public List<MenuPlatilloResponse> AsignarPlatillosAMenu(Guid idMenu, List<MenuPlatilloRequest> platillos)
+        public List<MenuOptionResponse> AsignarPlatillosAMenu(Guid idMenu, List<MenuOptionRequest> platillos)
         {
             foreach (var platillo in platillos)
             {
                 _command.AsignarPlatilloAMenu(idMenu, platillo.id, platillo.stock);
             }
 
-            var platillosDelMenu = _query.GetMenuPlatilloByMenuId(idMenu);
-            List<MenuPlatilloResponse> menuPlatillos = new List<MenuPlatilloResponse>();
+            var platillosDelMenu = _query.GetMenuOptionByMenuId(idMenu);
+            List<MenuOptionResponse> MenuOptions = new List<MenuOptionResponse>();
 
             foreach (var platilloMapear in platillosDelMenu)
             {
-                var platilloResponse = new MenuPlatilloResponse
+                var platilloResponse = new MenuOptionResponse
                 {
                     id = platilloMapear.IdPlatillo,
                     precio = platilloMapear.PrecioActual,
@@ -39,58 +39,58 @@ namespace Application.UseCase.MenuPlatillos
                     pedido = platilloMapear.Solicitados
                 };
 
-                menuPlatillos.Add(platilloResponse);
+                MenuOptions.Add(platilloResponse);
             }
 
-            return menuPlatillos;
+            return MenuOptions;
         }
 
-        public MenuPlatilloResponse GetMenuPlatilloById(Guid id)
+        public MenuOptionResponse GetMenuOptionById(Guid id)
         {
-            var menuPlatillo = _query.GetById(id);
+            var MenuOption = _query.GetById(id);
 
-            return new MenuPlatilloResponse
+            return new MenuOptionResponse
             {
-                id = menuPlatillo.IdPlatillo,
-                precio = menuPlatillo.PrecioActual,
-                stock = menuPlatillo.Stock,
-                pedido = menuPlatillo.Solicitados
+                id = MenuOption.IdPlatillo,
+                precio = MenuOption.PrecioActual,
+                stock = MenuOption.Stock,
+                pedido = MenuOption.Solicitados
             };
         }
 
-        public List<MenuPlatilloGetResponse> GetMenuPlatilloDelMenu(Guid idMenu)
+        public List<MenuOptionGetResponse> GetMenuOptionDelMenu(Guid idMenu)
         {
-            var platillosDelMenu = _query.GetMenuPlatilloByMenuId(idMenu);
-            List<MenuPlatilloGetResponse> menuPlatillos = new List<MenuPlatilloGetResponse>();
+            var platillosDelMenu = _query.GetMenuOptionByMenuId(idMenu);
+            List<MenuOptionGetResponse> MenuOptions = new List<MenuOptionGetResponse>();
 
             foreach (var plato in platillosDelMenu)
             {
-                var response = new MenuPlatilloGetResponse
+                var response = new MenuOptionGetResponse
                 {
                     id = plato.IdPlatillo,
-                    idMenuPlato = plato.IdMenuPlatillo,
+                    idMenuPlato = plato.IdMenuOption,
                     descripcion = _platilloService.GetPlatilloById(plato.IdPlatillo).descripcion,
                     precio = plato.PrecioActual,
                     stock = plato.Stock,
                     pedido = plato.Solicitados
                 };
 
-                menuPlatillos.Add(response);
+                MenuOptions.Add(response);
             }
 
-            return menuPlatillos;
+            return MenuOptions;
         }
 
-        public MenuPlatilloResponse ModificarMenuPlatillo(Guid idMenuPlatillo, MenuPlatilloRequest menuPlatillo)
+        public MenuOptionResponse ModificarMenuOption(Guid idMenuOption, MenuOptionRequest MenuOption)
         {
-            var menuPlato = new MenuPlatillo
+            var menuPlato = new MenuOption
             {
-                Stock = menuPlatillo.stock,
-                Solicitados = menuPlatillo.solicitados
+                Stock = MenuOption.stock,
+                Solicitados = MenuOption.solicitados
             };
 
-            var found = _command.UpdateMenuPlatillo(idMenuPlatillo, menuPlato);
-            return GetMenuPlatilloById(idMenuPlatillo);
+            var found = _command.UpdateMenuOption(idMenuOption, menuPlato);
+            return GetMenuOptionById(idMenuOption);
         }
     }
 }

@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infraestructure.Config.TestData
+namespace Infraestructure.TestData
 {
-    public class DescuentoTest : IEntityTypeConfiguration<Discount>
+    public class DiscountTest : IEntityTypeConfiguration<Discount>
     {
         public void Configure(EntityTypeBuilder<Discount> builder)
         {
@@ -12,9 +12,9 @@ namespace Infraestructure.Config.TestData
 
                 new Discount
                 {
-                    IdDescuento = Guid.NewGuid(),
-                    FechaInicioVigencia = DateTime.Now,
-                    Porcentaje = 50
+                    IdDiscount = Guid.NewGuid(),
+                    StartDate = DateTime.Now,
+                    Percentage = 50
                 }
             );
         }

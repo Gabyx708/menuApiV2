@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
 using Infraestructure.Config;
-using Infraestructure.Config.TestData;
+using Infraestructure.TestData;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infraestructure.Persistence
@@ -13,42 +13,42 @@ namespace Infraestructure.Persistence
 
         }
 
-
-        public DbSet<User> Personales { get; set; }
-        public DbSet<Order> Pedidos { get; set; }
-        public DbSet<Receipt> Recibos { get; set; }
-        public DbSet<Discount> Descuentos { get; set; }
-        public DbSet<PedidoPorMenuPlatillo> PedidosPorMenuPlatillo { get; set; }
-        public DbSet<MenuPlatillo> MenuPlatillos { get; set; }
-        public DbSet<Dish> Platillos { get; set; }
+        public DbSet<Authorization> Authorizations { get; set; }
+        public DbSet<Discount> Discounts { get; set; }
+        public DbSet<Dish> Dishes { get; set; }
         public DbSet<Menu> Menues { get; set; }
-        public DbSet<Pago> Pagos { get; set; }
-        public DbSet<Authorization> AutorizacionPedidos { get; set; }
+        public DbSet<MenuOption> MenuOptions { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Receipt> Receipts { get; set; }
+        public DbSet<State> States { get; set; }
+        public DbSet<Transition> Transitions { get; set; }
+        public DbSet<User> Users { get; set; }
 
 
         //config
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new PersonalConfig());
-            modelBuilder.ApplyConfiguration(new PedidosConfig());
-            modelBuilder.ApplyConfiguration(new MenuPlatilloConfig());
-            modelBuilder.ApplyConfiguration(new PedidoPorMenuPlatilloConfig());
-            modelBuilder.ApplyConfiguration(new ReciboConfig());
+            modelBuilder.ApplyConfiguration(new AuthorizationConfig());
+            modelBuilder.ApplyConfiguration(new DiscountConfig());
+            modelBuilder.ApplyConfiguration(new DishConfig());
             modelBuilder.ApplyConfiguration(new MenuConfig());
-            modelBuilder.ApplyConfiguration(new PlatilloConfig());
-            modelBuilder.ApplyConfiguration(new PagoConfig());
-            modelBuilder.ApplyConfiguration(new DescuentoConfig());
-            modelBuilder.ApplyConfiguration(new AutorizacionPedidoConfig());
+            modelBuilder.ApplyConfiguration(new MenuOptionConfig());
+            modelBuilder.ApplyConfiguration(new OrderConfig());
+            modelBuilder.ApplyConfiguration(new OrderItemConfig());
+            modelBuilder.ApplyConfiguration(new ReceiptConfig());
+            modelBuilder.ApplyConfiguration(new StateConfig());
+            modelBuilder.ApplyConfiguration(new TransitionConfig());
+            modelBuilder.ApplyConfiguration(new UserConfig());
 
 
-            modelBuilder.ApplyConfiguration(new AdministradorTest());
-            modelBuilder.ApplyConfiguration(new DescuentoTest());
 
             //test data
             //TODO delete for production enviroment
-            modelBuilder.ApplyConfiguration(new PlatilloTest());
-            modelBuilder.ApplyConfiguration(new PersonalConfig());
-            modelBuilder.ApplyConfiguration(new PersonalTest());
+            modelBuilder.ApplyConfiguration(new DishTest());
+            modelBuilder.ApplyConfiguration(new DiscountTest());
+            //modelBuilder.ApplyConfiguration(new AdministratorTest());
+            //modelBuilder.ApplyConfiguration(new UserTest());
         }
     }
 }

@@ -11,5 +11,7 @@
         public int Privilege { get; set; }
         public string Password { get; set; } = null!;
 
+        public ICollection<Order> Orders { get; set; } = null!;
+
     }
 }

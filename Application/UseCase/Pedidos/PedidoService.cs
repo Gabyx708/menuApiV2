@@ -1,16 +1,16 @@
 ﻿using Application.Exceptions;
 using Application.Interfaces.IAutorizacionPedido;
 using Application.Interfaces.IMenu;
-using Application.Interfaces.IMenuPlatillo;
+using Application.Interfaces.IMenuOption;
 using Application.Interfaces.IPedido;
-using Application.Interfaces.IPedidoPorMenuPlatillo;
+using Application.Interfaces.IPedidoPorMenuOption;
 using Application.Interfaces.IPersonal;
 using Application.Interfaces.IPlatillo;
 using Application.Interfaces.IRecibo;
-using Application.Request.MenuPlatilloRequests;
+using Application.Request.MenuOptionRequests;
 using Application.Request.PedidoRequests;
 using Application.Response.AutorizacionPedidoResponses;
-using Application.Response.MenuPlatilloResponses;
+using Application.Response.MenuOptionResponses;
 using Application.Response.MenuResponses;
 using Application.Response.PedidoResponses;
 using Application.Response.PersonalResponses;
@@ -24,24 +24,24 @@ namespace Application.UseCase.Pedidos
         private readonly IPedidoCommand _command;
         private readonly IPedidoQuery _query;
         private readonly IPersonalService _personalService;
-        private readonly IPedidoPorMenuPlatilloService _pedidoPorMenuPlatilloService;
-        private readonly IMenuPlatilloService _menuPlatilloService;
+        private readonly IPedidoPorMenuOptionService _pedidoPorMenuOptionService;
+        private readonly IMenuOptionService _MenuOptionService;
         private readonly IPlatilloService _platilloService;
         private readonly IReciboService _reciboService;
         private readonly IReciboCommand _reciboCommand;
-        private readonly IMenuPlatilloQuery _menuPlatilloQuery;
+        private readonly IMenuOptionQuery _MenuOptionQuery;
         private readonly IMenuService _menuService;
         private readonly IRepositoryAutorizacionPedido _repositoryAuthPedido;
-        public PedidoService(IPedidoCommand command, IPedidoQuery query, IPersonalService personalService, IPedidoPorMenuPlatilloService pedidoPorMenuPlatilloService, IMenuPlatilloService menuPlatilloService, IPlatilloService platilloService, IReciboService reciboService, IMenuPlatilloQuery menuPlatilloQuery, IMenuService menuService, IReciboCommand reciboCommand, IRepositoryAutorizacionPedido repositoryAuthPedido)
+        public PedidoService(IPedidoCommand command, IPedidoQuery query, IPersonalService personalService, IPedidoPorMenuOptionService pedidoPorMenuOptionService, IMenuOptionService MenuOptionService, IPlatilloService platilloService, IReciboService reciboService, IMenuOptionQuery MenuOptionQuery, IMenuService menuService, IReciboCommand reciboCommand, IRepositoryAutorizacionPedido repositoryAuthPedido)
         {
             _command = command;
             _query = query;
             _personalService = personalService;
-            _pedidoPorMenuPlatilloService = pedidoPorMenuPlatilloService;
-            _menuPlatilloService = menuPlatilloService;
+            _pedidoPorMenuOptionService = pedidoPorMenuOptionService;
+            _MenuOptionService = MenuOptionService;
             _platilloService = platilloService;
             _reciboService = reciboService;
-            _menuPlatilloQuery = menuPlatilloQuery;
+            _MenuOptionQuery = MenuOptionQuery;
             _menuService = menuService;
             _reciboCommand = reciboCommand;
             _repositoryAuthPedido = repositoryAuthPedido;
@@ -50,17 +50,17 @@ namespace Application.UseCase.Pedidos
         public PedidoResponse GetPedidoById(Guid idPedido)
         {
             var pedido = _query.GetPedidoById(idPedido);
-            List<MenuPlatilloGetResponse> platillosDelMenu = new List<MenuPlatilloGetResponse>();
+            List<MenuOptionGetResponse> platillosDelMenu = new List<MenuOptionGetResponse>();
 
             if (pedido != null)
             {
-                var pedidosPorMenuPlatillo = _pedidoPorMenuPlatilloService.GetPedidosMenuPlatilloDePedido(idPedido);
+                var pedidosPorMenuOption = _pedidoPorMenuOptionService.GetPedidosMenuOptionDePedido(idPedido);
 
-                foreach (var pedidoPorMenuPlatillo in pedidosPorMenuPlatillo)
+                foreach (var pedidoPorMenuOption in pedidosPorMenuOption)
                 {
-                    var recuperado = _menuPlatilloService.GetMenuPlatilloById(pedidoPorMenuPlatillo.IdMenuPlatillo);
+                    var recuperado = _MenuOptionService.GetMenuOptionById(pedidoPorMenuOption.IdMenuOption);
 
-                    MenuPlatilloGetResponse menuPlatilloResponse = new MenuPlatilloGetResponse
+                    MenuOptionGetResponse MenuOptionResponse = new MenuOptionGetResponse
                     {
                         id = recuperado.id,
                         descripcion = _platilloService.GetPlatilloById(recuperado.id).descripcion,
@@ -69,7 +69,7 @@ namespace Application.UseCase.Pedidos
                         pedido = recuperado.pedido,
                     };
 
-                    platillosDelMenu.Add(menuPlatilloResponse);
+                    platillosDelMenu.Add(MenuOptionResponse);
                 }
 
                 var personal = _personalService.GetPersonalById(pedido.IdPersonal);
@@ -110,11 +110,11 @@ namespace Application.UseCase.Pedidos
 
             if (found != null)
             {
-                Guid idMenuPlatilloPrimero = found.PedidosPorMenuPlatillo[0].IdMenuPlatillo;
-                DateTime fechaCierreMenu = _menuPlatilloQuery.GetById(idMenuPlatilloPrimero).Menu.FechaCierre;
+                Guid idMenuOptionPrimero = found.PedidosPorMenuOption[0].IdMenuOption;
+                DateTime CloseDateMenu = _MenuOptionQuery.GetById(idMenuOptionPrimero).Menu.CloseDate;
                 DateTime fechaActual = DateTime.Now;
 
-                if (fechaActual > fechaCierreMenu)
+                if (fechaActual > CloseDateMenu)
                 {
                     throw new InvalidOperationException();
                 }
@@ -130,7 +130,7 @@ namespace Application.UseCase.Pedidos
 
         public PedidoResponse HacerUnpedido(PedidoRequest request)
         {
-            if (request.MenuPlatillos.Count < 1 || request.MenuPlatillos.Count == 0)
+            if (request.MenuOptions.Count < 1 || request.MenuOptions.Count == 0)
             {
                 throw new SystemExceptionApp("pedido sin platillos", 400);
             }
@@ -140,20 +140,20 @@ namespace Application.UseCase.Pedidos
 
             MenuResponse ultimoMenu = _menuService.GetUltimoMenu();
 
-            var fechaCierreMenu = ultimoMenu.fecha_cierre;
-            var fechaCargaMenu = ultimoMenu.fecha_carga;
+            var CloseDateMenu = ultimoMenu.fecha_cierre;
+            var UploadDateMenu = ultimoMenu.fecha_carga;
 
             if (existePedido.Count > 0)
             {
                 throw new SystemExceptionApp("pedido ya hecho", 409);
             }
 
-            if (fechaActual < fechaCargaMenu)
+            if (fechaActual < UploadDateMenu)
             {
                 throw new SystemExceptionApp("fecha menor a fecha carga", 409);
             }
 
-            if (fechaActual > fechaCierreMenu)
+            if (fechaActual > CloseDateMenu)
             {
                 throw new SystemExceptionApp("fecha mayor a fecha cierre", 409);
             }
@@ -172,32 +172,32 @@ namespace Application.UseCase.Pedidos
             Logger.LogInformation("create new order: {@order} for user: {@user}",
                                   nuevoPedido.IdPedido, nuevoPedido.IdPersonal);
 
-            foreach (var menuPlatilloId in request.MenuPlatillos)
+            foreach (var MenuOptionId in request.MenuOptions)
             {
-                var menuPlatilloEcontrado = _menuPlatilloService.GetMenuPlatilloById(menuPlatilloId);
-                decimal precioPlatillo = menuPlatilloEcontrado.precio;
+                var MenuOptionEcontrado = _MenuOptionService.GetMenuOptionById(MenuOptionId);
+                decimal precioPlatillo = MenuOptionEcontrado.precio;
                 precioTotal = precioTotal + precioPlatillo;
 
-                PedidoPorMenuPlatilloRequest requestPedidoPorMenuPlatillo = new PedidoPorMenuPlatilloRequest
+                PedidoPorMenuOptionRequest requestPedidoPorMenuOption = new PedidoPorMenuOptionRequest
                 {
                     idPedido = nuevoPedido.IdPedido,
-                    idMenuPlatillo = menuPlatilloId,
+                    idMenuOption = MenuOptionId,
                 };
 
-                if (menuPlatilloEcontrado.stock == _menuPlatilloQuery.GetById(menuPlatilloId).Solicitados)
+                if (MenuOptionEcontrado.stock == _MenuOptionQuery.GetById(MenuOptionId).Solicitados)
                 {
                     Logger.LogInformation("delete new orer: {@order}", nuevoPedido);
                     return EliminarPedido(nuevoPedido.IdPedido);
                 }
 
-                MenuPlatilloRequest modificacion = new MenuPlatilloRequest
+                MenuOptionRequest modificacion = new MenuOptionRequest
                 {
-                    stock = menuPlatilloEcontrado.stock,
-                    solicitados = _menuPlatilloQuery.GetById(menuPlatilloId).Solicitados + 1
+                    stock = MenuOptionEcontrado.stock,
+                    solicitados = _MenuOptionQuery.GetById(MenuOptionId).Solicitados + 1
                 };
 
-                _menuPlatilloService.ModificarMenuPlatillo(menuPlatilloId, modificacion);
-                _pedidoPorMenuPlatilloService.CreatePedidoPorMenuPlatillo(requestPedidoPorMenuPlatillo);
+                _MenuOptionService.ModificarMenuOption(MenuOptionId, modificacion);
+                _pedidoPorMenuOptionService.CreatePedidoPorMenuOption(requestPedidoPorMenuOption);
             }
 
             _reciboService.CambiarPrecio(nuevoPedido.IdRecibo, precioTotal);
@@ -207,12 +207,12 @@ namespace Application.UseCase.Pedidos
 
         public PedidoResponse HacerUnpedidoSinRestricciones(PedidoRequest request, Guid usuarioPedidor)
         {
-            if (request.MenuPlatillos.Count < 1 || request.MenuPlatillos.Count == 0)
+            if (request.MenuOptions.Count < 1 || request.MenuOptions.Count == 0)
             {
                 throw new SystemExceptionApp("pedido sin platillos", 400);
             }
 
-            if (request.MenuPlatillos.GroupBy(mp => mp).Any(g => g.Count() > 1))
+            if (request.MenuOptions.GroupBy(mp => mp).Any(g => g.Count() > 1))
             {
                 throw new SystemExceptionApp("platillos repetidos", 400);
             }
@@ -230,31 +230,31 @@ namespace Application.UseCase.Pedidos
             Logger.LogInformation("create new order without restrictions: order:{@order} user: {@user}"
                                   , nuevoPedido.IdPedido, nuevoPedido.IdPersonal);
 
-            foreach (var menuPlatilloId in request.MenuPlatillos)
+            foreach (var MenuOptionId in request.MenuOptions)
             {
-                var menuPlatilloEcontrado = _menuPlatilloService.GetMenuPlatilloById(menuPlatilloId);
-                decimal precioPlatillo = menuPlatilloEcontrado.precio;
+                var MenuOptionEcontrado = _MenuOptionService.GetMenuOptionById(MenuOptionId);
+                decimal precioPlatillo = MenuOptionEcontrado.precio;
                 precioTotal = precioTotal + precioPlatillo;
 
-                PedidoPorMenuPlatilloRequest requestPedidoPorMenuPlatillo = new PedidoPorMenuPlatilloRequest
+                PedidoPorMenuOptionRequest requestPedidoPorMenuOption = new PedidoPorMenuOptionRequest
                 {
                     idPedido = nuevoPedido.IdPedido,
-                    idMenuPlatillo = menuPlatilloId,
+                    idMenuOption = MenuOptionId,
                 };
 
-                if (menuPlatilloEcontrado.stock == _menuPlatilloQuery.GetById(menuPlatilloId).Solicitados)
+                if (MenuOptionEcontrado.stock == _MenuOptionQuery.GetById(MenuOptionId).Solicitados)
                 {
                     return EliminarPedido(nuevoPedido.IdPedido);
                 }
 
-                MenuPlatilloRequest modificacion = new MenuPlatilloRequest
+                MenuOptionRequest modificacion = new MenuOptionRequest
                 {
-                    stock = menuPlatilloEcontrado.stock,
-                    solicitados = _menuPlatilloQuery.GetById(menuPlatilloId).Solicitados + 1
+                    stock = MenuOptionEcontrado.stock,
+                    solicitados = _MenuOptionQuery.GetById(MenuOptionId).Solicitados + 1
                 };
 
-                _menuPlatilloService.ModificarMenuPlatillo(menuPlatilloId, modificacion);
-                _pedidoPorMenuPlatilloService.CreatePedidoPorMenuPlatillo(requestPedidoPorMenuPlatillo);
+                _MenuOptionService.ModificarMenuOption(MenuOptionId, modificacion);
+                _pedidoPorMenuOptionService.CreatePedidoPorMenuOption(requestPedidoPorMenuOption);
             }
 
             _reciboService.CambiarPrecio(nuevoPedido.IdRecibo, precioTotal);

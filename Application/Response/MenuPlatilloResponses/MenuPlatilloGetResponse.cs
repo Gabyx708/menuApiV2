@@ -1,6 +1,6 @@
-﻿namespace Application.Response.MenuPlatilloResponses
+﻿namespace Application.Response.MenuOptionResponses
 {
-    public class MenuPlatilloGetResponse
+    public class MenuOptionGetResponse
     {
         public int id { get; set; }
 

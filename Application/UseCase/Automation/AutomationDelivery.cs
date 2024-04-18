@@ -6,7 +6,7 @@ using Application.Interfaces.IPedido;
 using Application.Interfaces.IPersonal;
 using Application.Request.AutomationRequest;
 using Application.Request.PedidoRequests;
-using Application.Response.MenuPlatilloResponses;
+using Application.Response.MenuOptionResponses;
 using Application.Response.MenuResponses;
 using Application.Response.PedidoResponses;
 using Application.Response.PersonalResponses;
@@ -25,7 +25,7 @@ namespace Application.Tools.Automation
         private readonly List<User> _personasMenuAutomatico;
         private readonly IPersonalCommand _personalCommand;
         private readonly IPersonalService _personalService;
-        private Guid _menuPlatilloId;
+        private Guid _MenuOptionId;
         private string idUsuarioBOT;
         private MenuResponse _ultimoMenu;
         private IRepositoryAutorizacionPedido _repositoryAutorizacionPedido;
@@ -60,7 +60,7 @@ namespace Application.Tools.Automation
             {
                 int opcion = randomMenuOpcion();
 
-                MenuPlatilloGetResponse opcionElegida = _ultimoMenu.platillos[opcion];
+                MenuOptionGetResponse opcionElegida = _ultimoMenu.platillos[opcion];
 
 
                 while (opcionElegida.stock <= opcionElegida.pedido)
@@ -69,12 +69,12 @@ namespace Application.Tools.Automation
                     opcionElegida = _ultimoMenu.platillos[opcion];
                 }
 
-                _menuPlatilloId = opcionElegida.idMenuPlato;
+                _MenuOptionId = opcionElegida.idMenuPlato;
 
                 var request = new PedidoRequest
                 {
                     idUsuario = persona.IdPersonal,
-                    MenuPlatillos = new List<Guid> { _menuPlatilloId }
+                    MenuOptions = new List<Guid> { _MenuOptionId }
                 };
 
 
