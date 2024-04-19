@@ -12,10 +12,10 @@ namespace Api.Controllers
     public class MenuController : ControllerBase
     {
 
-        private readonly IGetMenuById _GetMenuById;
+        private readonly IGetMenuByIdQuery _GetMenuById;
         private readonly IGetMenuFiltered _GetMenuFiltered;
 
-        public MenuController(IGetMenuById getMenuById, IGetMenuFiltered getMenuFiltered)
+        public MenuController(IGetMenuByIdQuery getMenuById, IGetMenuFiltered getMenuFiltered)
         {
             _GetMenuById = getMenuById;
             _GetMenuFiltered = getMenuFiltered;

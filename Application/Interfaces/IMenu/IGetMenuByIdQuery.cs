@@ -2,7 +2,7 @@
 
 namespace Application.Interfaces.IMenu
 {
-    public interface IGetMenuById
+    public interface IGetMenuByIdQuery
     {
         Result<GetMenuByIdResponse> GetMenuByIdResponse(string idMenu);
     }

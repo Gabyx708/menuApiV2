@@ -3,7 +3,7 @@ using Application.Interfaces.IMenu;
 
 namespace Application.UseCase.V2.Menu.GetById
 {
-    public class GetMenuById : IGetMenuById
+    public class GetMenuById : IGetMenuByIdQuery
     {
         private readonly IMenuQuery menuQuery;
 

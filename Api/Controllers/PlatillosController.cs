@@ -1,4 +1,4 @@
-﻿using Application.Interfaces.IPlatillo;
+﻿using Application.Interfaces.Dish;
 using Application.Response.PlatilloResponses;
 using Microsoft.AspNetCore.Mvc;
 

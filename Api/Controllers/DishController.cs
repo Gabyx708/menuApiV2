@@ -1,22 +1,22 @@
-using Application.Interfaces.IPlatillo;
+using Application.Interfaces.Dish;
+using Application.Interfaces.IDish;
 using Application.Request.PlatilloRequests;
 using Application.Response.PlatilloResponses;
+using Application.UseCase.V2.Dish.Create;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
-    [Route("api/v1.3/[controller]")]
+    [Route("api/v2/[controller]")]
     [ApiController]
-    public class PlatilloController : ControllerBase
+    public class DishController : ControllerBase
     {
-        private readonly IPlatilloService _services;
+        private readonly ICreateDishCommand _createDishCommand;
 
-        public PlatilloController(IPlatilloService services)
+        public DishController(ICreateDishCommand createDishCommand)
         {
-            _services = services;
+            _createDishCommand = createDishCommand;
         }
-
-
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(PlatilloResponse), 200)]
@@ -28,10 +28,14 @@ namespace Api.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(PlatilloResponse), 201)]
-        public IActionResult CrearPlatillo(PlatilloRequest request)
+        public IActionResult CreateNewDish(CreateDishRequest request)
         {
-            var nuevoPlato = _services.CreatePlatillo(request);
-            return new JsonResult(nuevoPlato) { StatusCode = 201 };
+            var result = _createDishCommand.CreateDish(request);
+
+            if (result.Success)
+            {
+                return Created(result.Data);
+            }
         }
 
         [HttpPut("{id}")]
