@@ -7,6 +7,5 @@
         public decimal Price { get; set; }
         public bool Activated { get; set; }
 
-        public ICollection<MenuOption> Options { get; set; } = null!;
     }
 }

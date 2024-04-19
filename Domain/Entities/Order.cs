@@ -6,7 +6,7 @@
         public DateTime OrderDate { get; set; }
         public int StateCode { get; set; }
         public State State { get; set; } = null!;
-        public Guid IdUser { get; set; }
+        public string IdUser { get; set; } = null!;
         public User User { get; set; } = null!;
         public Receipt? Receipt { get; set; }
         public Authorization? Authorization { get; set; }

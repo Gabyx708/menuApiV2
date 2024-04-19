@@ -1,6 +1,6 @@
 ﻿namespace Application.Common.Models
 {
-    public class PaginatedList<T> where T : class
+    public class PaginatedListResponse<T> where T : class
     {
         public int Index { get; set; }
         public int TotalPages { get; set; }

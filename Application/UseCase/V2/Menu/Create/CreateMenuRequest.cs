@@ -6,4 +6,10 @@
         public DateTime CloseDate { get; set; }
         public List<CreateMenuOptionsRequest> Options { get; set; } = null!;
     }
+
+    public class CreateMenuOptionsRequest
+    {
+        public int IdDish { get; set; }
+        public int Stock { get; set; }
+    }
 }

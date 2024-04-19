@@ -11,7 +11,9 @@
 
     public class OptionResponse
     {
-        public int idDish { get; set; }
-        public string description { get; set; } = null!;
+        public int IdDish { get; set; }
+        public string Description { get; set; } = null!;
+        public decimal Price { get; set; }
+        public int Stock { get; set; }
     }
 }

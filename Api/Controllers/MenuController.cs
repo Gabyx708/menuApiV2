@@ -1,8 +1,8 @@
-﻿using Application.Interfaces.IAutomation;
-using Application.Request.MenuRequests;
-using Application.Response.GenericResponses;
+﻿using Application.Common.Models;
+using Application.Interfaces.IMenu;
 using Application.Response.MenuResponses;
-using Microsoft.AspNetCore.Authorization;
+using Application.UseCase.V2.Menu.GetById;
+using Application.UseCase.V2.Menu.GetFilter;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -11,63 +11,44 @@ namespace Api.Controllers
     [ApiController]
     public class MenuController : ControllerBase
     {
-        private readonly IMenuService _services;
-        private readonly IAutomation _automationService;
 
-        public MenuController(IMenuService services, IAutomation automationService)
+        private readonly IGetMenuById _GetMenuById;
+        private readonly IGetMenuFiltered _GetMenuFiltered;
+
+        public MenuController(IGetMenuById getMenuById, IGetMenuFiltered getMenuFiltered)
         {
-            _services = services;
-            _automationService = automationService;
+            _GetMenuById = getMenuById;
+            _GetMenuFiltered = getMenuFiltered;
         }
 
-        [Authorize]
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(GetMenuByIdResponse), 200)]
+        public IActionResult GetMenuById(string id)
+        {
+            var result = _GetMenuById.GetMenuByIdResponse(id);
+
+            if(result.Success)
+            {
+                return Ok(result.Data);
+            }
+
+            return StatusCode(result.StatusCode, result.ErrorMessage);
+        }
+
         [HttpGet]
-        [ProducesResponseType(typeof(MenuResponse), 200)]
-        public IActionResult GetMenu(string? id)
+        [ProducesResponseType(typeof(PaginatedListResponse<GetMenuFilterResponse>),200)]
+        public IActionResult GetMenuByFiltered(DateTime? initialDate,DateTime? finalDate,int? index)
         {
-            MenuResponse? resultado = null;
 
-            if (id != null)
+            var result = _GetMenuFiltered.GetFilterMenuByUploadDate(initialDate,finalDate,index ?? 1);
+
+            if (result.Success)
             {
-                resultado = _services.GetMenuById(Guid.Parse(id));
-                return new JsonResult(resultado) { StatusCode = 200 };
+                return Ok(result.Data);
             }
 
-            resultado = _services.GetUltimoMenu();
-            return new JsonResult(resultado) { StatusCode = 200 };
+            return StatusCode(result.StatusCode, result.Data);
         }
 
-
-
-        [HttpPost]
-        [ProducesResponseType(typeof(MenuResponse), 201)]
-        public IActionResult CreateMenu(MenuRequest request)
-        {
-            MenuResponse nuevoMenu;
-
-            try
-            {
-                nuevoMenu = _services.CreateMenu(request);
-
-                //Hacer pedidos automaticos
-                _automationService.HacerPedidosAutomatico();
-
-            }
-            catch (Exception ex)
-            {
-                return new JsonResult(new SystemResponse { Message = "error en fechas de menu", StatusCode = 400 }) { StatusCode = 400 };
-            }
-
-            return new JsonResult(nuevoMenu) { StatusCode = 201 };
-        }
-
-        [Authorize]
-        [HttpDelete("{id}")]
-        [ProducesResponseType(typeof(MenuResponse), 200)]
-        public IActionResult DeleteMenu(Guid id)
-        {
-            var menuBorrado = _services.BorrarMenu(id);
-            return new JsonResult(menuBorrado) { StatusCode = 200 };
-        }
     }
 }

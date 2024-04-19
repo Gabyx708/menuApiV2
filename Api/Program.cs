@@ -43,6 +43,8 @@ namespace Api
 
             //Database
             string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            builder.Services.AddDbContext<MenuAppContext>(options => options.UseMySQL(connectionString));
+
 
             if (connectionString == null)
             {

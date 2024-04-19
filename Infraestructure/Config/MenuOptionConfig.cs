@@ -16,7 +16,8 @@ namespace Infraestructure.Config
 
             builder.HasOne(mo => mo.Dish)
                 .WithMany()
-                .HasForeignKey(mo => mo.IdDish);
+                .HasForeignKey(mo => mo.IdDish)
+                .HasPrincipalKey(d => d.IdDish);
 
         }
     }

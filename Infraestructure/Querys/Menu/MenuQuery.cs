@@ -2,9 +2,10 @@
 using Domain.Dtos;
 using Domain.Entities;
 using Infraestructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infraestructure.Querys
-  {
+{
     public class MenuQuery : IMenuQuery
     {
         private readonly MenuAppContext _context;
@@ -15,18 +16,50 @@ namespace Infraestructure.Querys
 
         public Menu GetMenuById(Guid idMenu)
         {
-            return _context.Menues.Find(idMenu)  ?? throw new NullReferenceException();
+            return _context.Menues.
+                           Include(menu => menu.Options)
+                           .ThenInclude(menuOption => menuOption.Dish)
+                           .SingleOrDefault(menu => menu.IdMenu == idMenu)
+                            ?? throw new NullReferenceException();
         }
 
-        public Menu GetNextMenu()
+        public Menu GetNextAvailableMenu()
         {
-            //TODO: codificar para traer el menu siguiente a pedir
-            throw new NotImplementedException();
+            var currentDate = DateTime.Now.Date;
+
+            return _context.Menues
+                            .Where(m => m.EatingDate >= currentDate)
+                            .OrderBy(m => m.EatingDate)
+                            .Include(menu => menu.Options)
+                            .ThenInclude(menuOption => menuOption.Dish)
+                            .SingleOrDefault()
+                            ?? throw new NullReferenceException();
         }
 
-        public PaginatedList<Menu> GetMenuList(DateTime InitialDate,DateTime FinalDate,int index,int quantity) 
-        { 
-        
+        public PaginatedList<Menu> GetMenuList(DateTime? InitialDate, DateTime? FinalDate, int index, int quantity)
+        {
+            var menues = from m in _context.Menues select m;
+
+            if (InitialDate != null)
+            {
+                menues = menues.Where(m => m.UploadDate.Date > InitialDate);
+            }
+
+            if (FinalDate != null)
+            {
+                menues = menues.Where(m => m.CloseDate.Date < FinalDate);
+            }
+
+            return PaginatedList<Menu>.Create(menues, index, quantity);
+        }
+
+        public PaginatedList<Menu> GetAll(int index, int quantity)
+        {
+            var menues = from m in _context.Menues select m;
+
+            var page = PaginatedList<Menu>.Create(menues, index, quantity);
+
+            return page;
         }
     }
 }

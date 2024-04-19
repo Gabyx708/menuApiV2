@@ -2,5 +2,9 @@
 {
     public class CreateMenuCommand
     {
+        public CreateMenuResponse CreateMenu(CreateMenuRequest request)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -11,19 +11,8 @@ namespace Infraestructure.Config
             builder.HasKey(oi => new { oi.IdOrder, oi.IdMenu, oi.IdDish });
 
             builder.HasOne(oi => oi.Order)
-                .WithMany(o => o.Items)
-                .HasForeignKey(oi => oi.IdOrder);
-
-            builder.HasOne(oi => oi.Menu)
-                .WithMany()
-                .HasForeignKey(oi => oi.IdMenu);
-
-            builder.HasOne(oi => oi.Dish)
-                .WithMany()
-                .HasForeignKey(oi => oi.IdDish);
-
-            builder.Property(oi => oi.Quantity)
-                .IsRequired();
+                   .WithMany(o => o.Items)
+                   .HasForeignKey(oi => oi.IdOrder);
         }
     }
 }

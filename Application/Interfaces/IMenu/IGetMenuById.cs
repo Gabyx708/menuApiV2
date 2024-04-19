@@ -4,6 +4,6 @@ namespace Application.Interfaces.IMenu
 {
     public interface IGetMenuById
     {
-        Result<GetMenuByIdResponse> GetMenuByIdResponse(Guid idMenu);
+        Result<GetMenuByIdResponse> GetMenuByIdResponse(string idMenu);
     }
 }
