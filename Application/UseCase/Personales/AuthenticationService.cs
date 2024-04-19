@@ -38,10 +38,7 @@ namespace Application.UseCase.Personales
 
             return new UsuarioLoginResponse
             {
-                id = persona.IdPersonal,
-                Nombre = persona.Nombre,
-                Apellido = persona.Apellido,
-                Token = token
+  
             };
         }
 
@@ -69,7 +66,7 @@ namespace Application.UseCase.Personales
 
             if (personal != null)
             {
-                var passwordRest = Encrypt256.GetSHA256(personal.Dni);
+                var passwordRest = Encrypt256.GetSHA256(personal.IdUser);
                 personal.Password = passwordRest;
                 _personalCommand.updatePersonal(idUser, personal);
                 return _personalService.GetPersonalById(idUser);
@@ -91,19 +88,19 @@ namespace Application.UseCase.Personales
 
             var claims = new Claim[]
             {
-                new Claim(JwtRegisteredClaimNames.UniqueName, usuario.Dni),
-                new Claim(JwtRegisteredClaimNames.Name, $"{usuario.Nombre} {usuario.Apellido}")
+                new Claim(JwtRegisteredClaimNames.UniqueName, usuario.IdUser),
+                new Claim(JwtRegisteredClaimNames.Name, $"{usuario.Name} {usuario.LastName}")
             };
 
             var payload = new JwtPayload
             {
-                {"sub", usuario.Dni},
-                {"name", $"{usuario.Nombre} {usuario.Apellido}"},
-                {"id",$"{usuario.IdPersonal}"},
-                {"exp", new DateTimeOffset(expires).ToUnixTimeSeconds()}, // Agrega la fecha de expiración
-                {"rol",usuario.Privilegio },
-                {"aud","menu"},
-                {"iss","menuServ"}
+                //{"sub", usuario.Dni},
+                //{"name", $"{usuario.Nombre} {usuario.Apellido}"},
+                //{"id",$"{usuario.IdPersonal}"},
+                //{"exp", new DateTimeOffset(expires).ToUnixTimeSeconds()}, // Agrega la fecha de expiración
+                //{"rol",usuario.Privilegio },
+                //{"aud","menu"},
+                //{"iss","menuServ"}
             };
 
             var token = new JwtSecurityToken(header, payload);

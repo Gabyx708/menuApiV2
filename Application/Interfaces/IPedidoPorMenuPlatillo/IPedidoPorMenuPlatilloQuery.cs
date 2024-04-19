@@ -5,10 +5,10 @@ namespace Application.Interfaces.IPedidoPor
 {
     public interface IPedidoPorMenuOptionQuery
     {
-        PedidoPorMenuOption GetPedidoPorMenuOption(Guid idPedido, Guid idMenuOption);
+        MenuOption GetPedidoPorMenuOption(Guid idPedido, Guid idMenuOption);
 
-        List<PedidoPorMenuOption> GetPedidoMenuOptionByMenu(Guid idMenu);
+        List<MenuOption> GetPedidoMenuOptionByMenu(Guid idMenu);
 
-        List<PedidoPorMenuOption> GetPedidoMenuOptionByPedido(Guid idPedido);
+        List<MenuOption> GetPedidoMenuOptionByPedido(Guid idPedido);
     }
 }

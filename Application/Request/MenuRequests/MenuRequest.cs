@@ -1,6 +1,5 @@
-﻿using Application.Request.
-    
-    Requests;
+﻿using Application.Request;
+using Domain.Entities;
 
 namespace Application.Request.MenuRequests
 {
@@ -8,6 +7,6 @@ namespace Application.Request.MenuRequests
     {
         public DateTime fecha_consumo { get; set; }
         public DateTime fecha_cierre { get; set; }
-        public List<MenuOptionRequest> platillosDelMenu { get; set; }
+        public List<MenuOption> platillosDelMenu { get; set; }
     }
 }

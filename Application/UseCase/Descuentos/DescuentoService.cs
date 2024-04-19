@@ -20,12 +20,11 @@ namespace Application.UseCase.Descuentos
         {
             var nuevoDescuento = new Discount
             {
-                FechaInicioVigencia = request.fecha_inicio,
-                Porcentaje = request.porcentaje
+                
             };
 
             _command.createDescuento(nuevoDescuento);
-            return GetDescuentoById(nuevoDescuento.IdDescuento);
+            return GetDescuentoById(nuevoDescuento.IdDiscount);
         }
 
         public List<DescuentoResponse> GetAll()
@@ -35,7 +34,7 @@ namespace Application.UseCase.Descuentos
 
             foreach (var descuento in descuentosAMapear)
             {
-                DescuentoResponse descuentoResponse = GetDescuentoById(descuento.IdDescuento);
+                DescuentoResponse descuentoResponse = GetDescuentoById(descuento.IdDiscount);
                 descuentos.Add(descuentoResponse);
             }
 
@@ -45,7 +44,7 @@ namespace Application.UseCase.Descuentos
         public DescuentoResponse GetByFecha(DateTime fecha)
         {
             var descuento = _query.GetByFecha(fecha);
-            return GetDescuentoById(descuento.IdDescuento);
+            return GetDescuentoById(descuento.IdDiscount);
         }
 
         public DescuentoResponse GetDescuentoById(Guid id)
@@ -56,9 +55,9 @@ namespace Application.UseCase.Descuentos
 
             return new DescuentoResponse
             {
-                id = descuento.IdDescuento,
-                fecha_inicio = descuento.FechaInicioVigencia,
-                porcentaje = descuento.Porcentaje
+                //id = descuento.IdDescuento,
+                //fecha_inicio = descuento.FechaInicioVigencia,
+                //porcentaje = descuento.Porcentaje
             };
         }
 
@@ -71,7 +70,7 @@ namespace Application.UseCase.Descuentos
                 return null;
             }
 
-            return GetDescuentoById(vigente.IdDescuento);
+            return GetDescuentoById(vigente.IdDiscount);
         }
     }
 }

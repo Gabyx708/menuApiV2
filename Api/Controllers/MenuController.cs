@@ -1,5 +1,4 @@
 ﻿using Application.Interfaces.IAutomation;
-using Application.Interfaces.IMenu;
 using Application.Request.MenuRequests;
 using Application.Response.GenericResponses;
 using Application.Response.MenuResponses;
@@ -8,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
-    [Route("api/v1.3/[controller]")]
+    [Route("api/v2/[controller]")]
     [ApiController]
     public class MenuController : ControllerBase
     {
@@ -38,16 +37,8 @@ namespace Api.Controllers
             return new JsonResult(resultado) { StatusCode = 200 };
         }
 
-        [Authorize]
-        [HttpGet("fecha/{fechaConsumo}")]
-        [ProducesResponseType(typeof(MenuResponse), 200)]
-        public IActionResult GetMenuByFecha(string fechaConsumo)
-        {
-            var menu = _services.GetUltimoMenu();
-            return new JsonResult(menu) { StatusCode = 200 };
-        }
 
-        [Authorize]
+
         [HttpPost]
         [ProducesResponseType(typeof(MenuResponse), 201)]
         public IActionResult CreateMenu(MenuRequest request)

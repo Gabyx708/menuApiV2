@@ -14,7 +14,6 @@
     <Folder Include="Dtos\Menu\Request\" />
     <Folder Include="Dtos\Menu\Response\" />
     <Folder Include="Response\GenericResponses\" />
-    <Folder Include="UseCase\V2\Order\" />
   </ItemGroup>
 
   <ItemGroup>
