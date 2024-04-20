@@ -13,9 +13,26 @@ namespace Infraestructure.Commands
             _context = context;
         }
 
-        public Menu InsertMenu(Menu menu)
+        public Menu InsertMenu(Menu menu,List<MenuOption> options)
         {
             _context.Add(menu);
+
+            foreach (var option in options)
+            {
+
+                var dish = _context.Dishes.Find(option.IdDish);
+
+                if (dish == null) { throw new NullReferenceException(); };
+
+                    option.IdMenu = menu.IdMenu;
+                    option.Price = dish.Price;
+
+                    _context.MenuOptions.Add(option);
+
+                    menu.Options.Add(option);
+                          
+            }
+
             _context.SaveChanges();
             return menu;
         }

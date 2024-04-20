@@ -20,7 +20,7 @@ namespace Application.UseCase.V2.Menu.GetById
             if (!validationResult.IsValid)
             {
                 var errorMessages = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
-                return Result<GetMenuByIdResponse>.FailureResult(errorMessages,400);
+                return Result<GetMenuByIdResponse>.ValidationResult(errorMessages);
             }
 
             try
@@ -41,14 +41,17 @@ namespace Application.UseCase.V2.Menu.GetById
 
                     return Result<GetMenuByIdResponse>.SuccessResult(menuResponse);
                 }
-                else
-                {
-                    return Result<GetMenuByIdResponse>.FailureResult($"Menu with id {idMenu} not found",404);
-                }
+
+                return Result<GetMenuByIdResponse>.NotFoundResult($"Menu with id {idMenu} not found");
+
+            }
+            catch (NullReferenceException)
+            { 
+                    return Result<GetMenuByIdResponse>.NotFoundResult($"Menu with id {idMenu} not found");
             }
             catch (Exception ex)
             {
-                return Result<GetMenuByIdResponse>.FailureResult($"An error occurred while fetching the menu: {ex.Message}",500);
+                return Result<GetMenuByIdResponse>.FailureResult($"An error occurred while fetching the menu: {ex.Message}");
             }
         }
 
@@ -66,6 +69,7 @@ namespace Application.UseCase.V2.Menu.GetById
                     Description = option.Dish.Description,
                     Price = option.Price,
                     Stock = option.Stock,
+                    Requested = option.Requested
                 };
 
                 optionsResponse.Add(response);

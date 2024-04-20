@@ -20,7 +20,7 @@ namespace Application.UseCase.V2.Menu.GetFilter
             if (initialDate == finalDate || initialDate > finalDate)
             {
                 string message = $"The dates cannot be the same, the initial date cannot be older than the final date";
-                return Result<PaginatedListResponse<GetMenuFilterResponse>>.FailureResult(message,400);
+                return Result<PaginatedListResponse<GetMenuFilterResponse>>.ValidationResult(message);
             }
 
             int recordQuantity = 10;

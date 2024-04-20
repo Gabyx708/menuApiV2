@@ -1,7 +1,13 @@
-using Application.Interfaces.IAutomation;
+using Application.Interfaces.IDish;
+using Application.Interfaces.IMenu;
 using Application.Tools.Log;
-using Application.UseCase.Automation;
+using Application.UseCase.V2.Dish.Create;
+using Application.UseCase.V2.Menu.Create;
+using Application.UseCase.V2.Menu.GetById;
+using Application.UseCase.V2.Menu.GetFilter;
+using Infraestructure.Commands;
 using Infraestructure.Persistence;
+using Infraestructure.Querys;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -53,23 +59,27 @@ namespace Api
             }
 
 
-            //test database
-            //try
-            //{
-            //    using (var dbContext = new MenuAppContext(new DbContextOptionsBuilder<MenuAppContext>().UseMySQL(connectionString).Options))
-            //    {
-            //        dbContext.Database.OpenConnection();
-            //        dbContext.Database.CloseConnection();
-            //        Logger.LogInformation("connect database...");
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    Logger.LogError(ex, "Error connection database: {Error}", ex.Message);
-            //    return;
-            //}
-
             builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
+            //Query
+            builder.Services.AddScoped<IDishQuery, DishQuery>();
+            builder.Services.AddScoped<IMenuQuery, MenuQuery>();
+
+
+
+            //Command
+            builder.Services.AddScoped<IDishCommand, DishCommand>();
+            builder.Services.AddScoped<IMenuCommand,MenuCommand>();
+
+            //UseCase
+
+            //Dish
+            builder.Services.AddScoped<ICreateDishCommand, CreateDishCommand>();
+
+            //Menu
+            builder.Services.AddScoped<IGetMenuByIdQuery, GetMenuById>();
+            builder.Services.AddScoped<IGetMenuFiltered, GetMenuByFiltered>();
+            builder.Services.AddScoped<ICreateMenuCommand,CreateMenuCommand>();
 
             ////Personal
             //builder.Services.AddScoped<IPersonalCommand, PersonalCommand>();
@@ -81,10 +91,6 @@ namespace Api
             //builder.Services.AddScoped<IPlatilloCommand, PlatilloCommand>();
             //builder.Services.AddScoped<IPlatilloService, PlatilloService>();
 
-            ////Menu
-            //builder.Services.AddScoped<IMenuCommand, MenuCommand>();
-            //builder.Services.AddScoped<IMenuQuery, MenuQuery>();
-            //builder.Services.AddScoped<IMenuService, MenuService>();
 
             ////MenuPlatillo
             //builder.Services.AddScoped<IMenuPlatilloCommand, MenuPlatilloCommand>();

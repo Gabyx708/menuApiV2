@@ -33,9 +33,19 @@ namespace Application
             return new Result<T>(true, data, string.Empty);
         }
 
-        public static Result<T> FailureResult(string errorMessage,int statusCode)
+        public static Result<T> FailureResult(string errorMessage)
         {
-            return new Result<T>(false, default(T), errorMessage,statusCode);
+            return new Result<T>(false, default(T), errorMessage,500);
+        }
+
+        public static Result<T> ValidationResult(string errorMessage)
+        {
+            return new Result<T>(false, default(T), errorMessage,400);
+        }
+
+        public static Result<T> NotFoundResult(string errorMessage)
+        {
+            return new Result<T>(false, default(T), errorMessage, 404);
         }
     }
 }

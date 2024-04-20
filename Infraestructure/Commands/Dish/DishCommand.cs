@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces.IDish;
 using Infraestructure.Persistence;
 
-namespace Infraestructure.Commands.Dish
+namespace Infraestructure.Commands
 {
     public class DishCommand : IDishCommand
     {
