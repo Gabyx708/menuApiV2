@@ -53,6 +53,10 @@ namespace Application.UseCase.V2.Menu.Create
             catch (NullReferenceException)
             {
                 return Result<CreateMenuResponse>.ValidationResult("It's likely that a dish id doesn't exist");
+
+            }catch(Exception)
+            {
+                return Result<CreateMenuResponse>.FailureResult("An unexpected error occurred while trying to create the menu");
             }
 
             var createMenuResponse = new CreateMenuResponse
@@ -61,10 +65,32 @@ namespace Application.UseCase.V2.Menu.Create
                 CloseDate = menu.CloseDate,
                 EatingDate = menu.EatingDate,
                 UploadDate = menu.UploadDate,
-                Options = null
+                Options = GetOptionsForMenu(menu.Options)
             };
 
             return Result<CreateMenuResponse>.SuccessResult(createMenuResponse);
+        }
+
+
+        private List<OptionResponse> GetOptionsForMenu(ICollection<MenuOption> options)
+        {
+            var optionsResponse = new List<OptionResponse>();
+
+            foreach (var option in options)
+            {
+                var response = new OptionResponse
+                {
+                    IdDish = option.Dish.IdDish,
+                    Description = option.Dish.Description,
+                    Price = option.Price,
+                    Stock = option.Stock,
+                    Requested = option.Requested
+                };
+
+                optionsResponse.Add(response);
+            }
+
+            return optionsResponse;
         }
 
     }

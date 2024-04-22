@@ -46,9 +46,9 @@ namespace Api.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(PaginatedListResponse<GetMenuFilterResponse>), 200)]
-        public IActionResult GetMenuByFiltered(DateTime? initialDate, DateTime? finalDate, int? index)
+        public IActionResult GetMenuByFiltered(DateTime? initialDate, DateTime? finalDate, int? index,int? quantity)
         {
-            var result = _GetMenuFiltered.GetFilterMenuByUploadDate(initialDate, finalDate, index ?? 1);
+            var result = _GetMenuFiltered.GetFilterMenuByEatingDate(initialDate, finalDate, quantity ?? 10,index ?? 1);
 
             if (result.Success)
             {

@@ -10,10 +10,13 @@ namespace Api.Controllers
     public class DishController : ControllerBase
     {
         private readonly ICreateDishCommand _createDishCommand;
+        private readonly IGetDishesByDescription _getDishByDescription;
 
-        public DishController(ICreateDishCommand createDishCommand)
+        public DishController(ICreateDishCommand createDishCommand,
+                             IGetDishesByDescription getDishByDescription)
         {
             _createDishCommand = createDishCommand;
+            _getDishByDescription = getDishByDescription;
         }
 
         [HttpPost]
@@ -27,6 +30,24 @@ namespace Api.Controllers
             if (result.Success)
             {
                 return Created("", result.Data);
+            }
+
+            return new JsonResult(new SystemResponse
+            {
+                StatusCode = result.StatusCode,
+                Message = result.ErrorMessage
+            })
+            { StatusCode = result.StatusCode };
+        }
+
+        [HttpGet]
+        public IActionResult GetDishesByDescription(string? description,int? index,int? quantity)
+        {
+            var result = _getDishByDescription.GetDishesByDescription(description ?? "", index ?? 1, quantity ?? 10);
+
+            if (result.Success)
+            {
+                return Ok(result.Data);
             }
 
             return new JsonResult(new SystemResponse

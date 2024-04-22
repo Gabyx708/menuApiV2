@@ -12,18 +12,21 @@ namespace Application.UseCase.V2.Menu.GetFilter
             this.menuQuery = menuQuery;
         }
 
-        public Result<PaginatedListResponse<GetMenuFilterResponse>> GetFilterMenuByUploadDate(DateTime? initialDate,
+        public Result<PaginatedListResponse<GetMenuFilterResponse>> GetFilterMenuByEatingDate(DateTime? initialDate,
                                                                                               DateTime? finalDate,
+                                                                                              int recordQuantity,
                                                                                               int index)
         {
-
-            if (initialDate == finalDate || initialDate > finalDate)
+            if (initialDate != null && finalDate != null)
             {
-                string message = $"The dates cannot be the same, the initial date cannot be older than the final date";
-                return Result<PaginatedListResponse<GetMenuFilterResponse>>.ValidationResult(message);
+                if (initialDate == finalDate || initialDate > finalDate)
+                {
+                    string message = $"The dates cannot be the same, the initial date cannot be older than the final date";
+                    return Result<PaginatedListResponse<GetMenuFilterResponse>>.ValidationResult(message);
+                }
             }
+            
 
-            int recordQuantity = 10;
             var menuesPage = menuQuery.GetMenuList(initialDate, finalDate, index,recordQuantity);
 
             var menuesResponses = menuesPage.Items

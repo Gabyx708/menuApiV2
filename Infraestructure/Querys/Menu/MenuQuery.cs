@@ -50,6 +50,8 @@ namespace Infraestructure.Querys
                 menues = menues.Where(m => m.CloseDate.Date < FinalDate);
             }
 
+            menues = menues.OrderByDescending(m => m.EatingDate);
+
             return PaginatedList<Menu>.Create(menues, index, quantity);
         }
 

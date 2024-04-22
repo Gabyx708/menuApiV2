@@ -7,7 +7,7 @@ namespace Application.Interfaces.IDish
     {
         Dish GetDishById(int idDish);
         PaginatedList<Dish> GetAll(int index,int quantity);
-        PaginatedList<Dish> GetByDescription(int index,string description);
+        PaginatedList<Dish> GetByDescription(int index,string description,int quantity);
 
     }
 }

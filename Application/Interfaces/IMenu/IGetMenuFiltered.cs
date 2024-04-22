@@ -5,8 +5,9 @@ namespace Application.Interfaces.IMenu
 {
     public interface IGetMenuFiltered
     {
-        Result<PaginatedListResponse<GetMenuFilterResponse>> GetFilterMenuByUploadDate(DateTime? initialDate,
+        Result<PaginatedListResponse<GetMenuFilterResponse>> GetFilterMenuByEatingDate(DateTime? initialDate,
                                                                                        DateTime? finalDate,
+                                                                                       int recordQuantity,
                                                                                        int index);
     }
 }

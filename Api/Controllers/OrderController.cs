@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
-    [Route("api/v1.3/[controller]")]
+    [Route("api/v2/[controller]")]
     [ApiController]
-    public class PedidoController : ControllerBase
+    public class OrderController : ControllerBase
     {
         private IPedidoService _services;
 
-        public PedidoController(IPedidoService services)
+        public OrderController(IPedidoService services)
         {
             _services = services;
         }

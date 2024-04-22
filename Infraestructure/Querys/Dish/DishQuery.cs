@@ -21,11 +21,13 @@ namespace Infraestructure.Querys
             return PaginatedList<Dish>.Create(dishes, index, quantity);
         }
 
-        public PaginatedList<Dish> GetByDescription(int index, string description)
+        public PaginatedList<Dish> GetByDescription(int index, string description,int quantity)
         {
-            var dishes = _context.Dishes.Where(d => d.Description.Contains(description));
+            var dishes = _context.Dishes
+                         .Where(d => d.Description.Contains(description))
+                         .OrderBy(d => d.IdDish);
 
-            return PaginatedList<Dish>.Create(dishes, index, 10);
+            return PaginatedList<Dish>.Create(dishes, index, quantity);
         }
 
         public Dish GetDishById(int idDish)
