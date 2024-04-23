@@ -3,6 +3,8 @@ using Application.Interfaces.IMenu;
 using Application.Tools.Log;
 using Application.UseCase.V2.Dish.Create;
 using Application.UseCase.V2.Dish.GetByDescription;
+using Application.UseCase.V2.Dish.GetById;
+using Application.UseCase.V2.Dish.UpdatePrices;
 using Application.UseCase.V2.Menu.Create;
 using Application.UseCase.V2.Menu.GetById;
 using Application.UseCase.V2.Menu.GetFilter;
@@ -77,6 +79,8 @@ namespace Api
             //Dish
             builder.Services.AddScoped<ICreateDishCommand, CreateDishCommand>();
             builder.Services.AddScoped<IGetDishesByDescription, GetDishByDescription>();
+            builder.Services.AddScoped<IGetDishByIdQuery, GetDishById>();
+            builder.Services.AddScoped<IDishesUpdatePrice, DishesUpdatePrice>();
 
             //Menu
             builder.Services.AddScoped<IGetMenuByIdQuery, GetMenuById>();
