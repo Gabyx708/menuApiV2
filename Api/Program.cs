@@ -1,5 +1,6 @@
 using Application.Interfaces.IDish;
 using Application.Interfaces.IMenu;
+using Application.Interfaces.IOrder;
 using Application.Tools.Log;
 using Application.UseCase.V2.Dish.Create;
 using Application.UseCase.V2.Dish.GetByDescription;
@@ -67,6 +68,7 @@ namespace Api
             //Query
             builder.Services.AddScoped<IDishQuery, DishQuery>();
             builder.Services.AddScoped<IMenuQuery, MenuQuery>();
+            builder.Services.AddScoped<IOrderQuery, OrderQuery>();
 
 
 
