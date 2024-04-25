@@ -1,9 +1,6 @@
-﻿using Application.Exceptions;
-using Application.Interfaces.IPedido;
-using Application.Request.PedidoRequests;
+﻿using Application.Interfaces.IOrder;
 using Application.Response.GenericResponses;
-using Application.Response.PedidoResponses;
-using Microsoft.AspNetCore.Authorization;
+using Application.UseCase.V2.Order.Create;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -12,75 +9,31 @@ namespace Api.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
-        private IPedidoService _services;
+        private readonly ICreateOrderCommand _createOrderCommand;
 
-        public OrderController(IPedidoService services)
+        public OrderController(ICreateOrderCommand createOrderCommand)
         {
-            _services = services;
+            _createOrderCommand = createOrderCommand;
         }
 
-        [Authorize]
         [HttpPost]
-        [ProducesResponseType(typeof(PedidoResponse), 201)]
-        public IActionResult HacerUnPedido(PedidoRequest request)
+        [ProducesResponseType(typeof(CreateOrderResponse), 201)]
+        public IActionResult CreateNewOrder(CreateOrderRequest request)
         {
-            PedidoResponse result = new PedidoResponse();
-            //TODO refactorizar 
-            var usuarioActual = HttpContext.User;
-            var usuarioRol = usuarioActual.Claims.FirstOrDefault(u => u.Type == "rol").Value;
-            var usuarioId = usuarioActual.Claims.FirstOrDefault(u => u.Type == "id").Value;
-            var rolAdministrador = "1";
+            var result = _createOrderCommand.CreateOrder(request);
 
-            try
+            if (result.Success)
             {
-
-                if (usuarioRol == rolAdministrador && usuarioRol != null)
-                {
-
-                    result = _services.HacerUnpedidoSinRestricciones(request, new Guid(usuarioId));
-                }
-                else
-                {
-                    result = _services.HacerUnpedido(request);
-                }
-
-                return new JsonResult(result) { StatusCode = 201 };
-            }
-            catch (SystemExceptionApp e)
-            {
-                return new JsonResult(e._response) { StatusCode = e._response.StatusCode };
-            }
-            catch (Exception e)
-            {
-                return new JsonResult(new SystemResponse { Message = "falla interna", StatusCode = 500 }) { StatusCode = 500 };
+                return Created("", result.Data);
             }
 
-        }
-
-        [Authorize]
-        [HttpGet("{id}")]
-        [ProducesResponseType(typeof(PedidoResponse), 200)]
-        public IActionResult ConsularPedido(Guid id)
-        {
-            var pedidoConsultado = _services.GetPedidoById(id);
-            return Ok(pedidoConsultado);
-        }
-
-        [Authorize]
-        [HttpDelete("{id}")]
-        public IActionResult DeletePedido(Guid id)
-        {
-            PedidoResponse pedidoEliminado = new PedidoResponse();
-            try
+            return new JsonResult(new SystemResponse
             {
-                pedidoEliminado = _services.EliminarPedido(id);
-            }
-            catch (InvalidOperationException)
-            {
-                return new JsonResult(new SystemResponse { Message = "fecha excedida", StatusCode = 409 }) { StatusCode = 409 };
-            }
+                StatusCode = result.StatusCode,
+                Message = result.ErrorMessage
+            })
+            { StatusCode = result.StatusCode };
 
-            return new JsonResult(pedidoEliminado);
         }
 
     }

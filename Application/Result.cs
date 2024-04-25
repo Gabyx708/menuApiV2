@@ -47,5 +47,10 @@ namespace Application
         {
             return new Result<T>(false, default(T), errorMessage, 404);
         }
+
+        public static Result<T> ConflictResult(string errorMessage)
+        {
+            return new Result<T>(false, default(T), errorMessage, 409);
+        }
     }
 }

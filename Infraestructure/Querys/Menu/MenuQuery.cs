@@ -32,7 +32,7 @@ namespace Infraestructure.Querys
                             .OrderBy(m => m.EatingDate)
                             .Include(menu => menu.Options)
                             .ThenInclude(menuOption => menuOption.Dish)
-                            .SingleOrDefault()
+                            .FirstOrDefault()
                             ?? throw new NullReferenceException();
         }
 

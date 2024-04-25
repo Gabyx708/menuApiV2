@@ -2,6 +2,7 @@
 using Domain.Dtos;
 using Domain.Entities;
 using Infraestructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infraestructure.Querys
 {
@@ -23,7 +24,13 @@ namespace Infraestructure.Querys
 
         public Order GetOrderById(Guid id)
         {
-            return _context.Orders.Find(id)
+            return _context.Orders
+                            .Include(o => o.User)
+                            .Include(o => o.State)
+                            .Include(o => o.Items)
+                            .ThenInclude(item => item.MenuOption)
+                            .ThenInclude(moption => moption.Dish)
+                            .FirstOrDefault(o => o.IdOrder == id)
                     ?? throw new NullReferenceException();
         }
 

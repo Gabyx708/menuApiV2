@@ -1,6 +1,9 @@
+using Application.Interfaces.I;
 using Application.Interfaces.IDish;
 using Application.Interfaces.IMenu;
+using Application.Interfaces.IMenuOption;
 using Application.Interfaces.IOrder;
+using Application.Interfaces.IUnitOfWork;
 using Application.Tools.Log;
 using Application.UseCase.V2.Dish.Create;
 using Application.UseCase.V2.Dish.GetByDescription;
@@ -9,9 +12,12 @@ using Application.UseCase.V2.Dish.UpdatePrices;
 using Application.UseCase.V2.Menu.Create;
 using Application.UseCase.V2.Menu.GetById;
 using Application.UseCase.V2.Menu.GetFilter;
+using Application.UseCase.V2.Menu.GetNextAvailable;
+using Application.UseCase.V2.Order.Create;
 using Infraestructure.Commands;
 using Infraestructure.Persistence;
 using Infraestructure.Querys;
+using Infraestructure.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -69,12 +75,15 @@ namespace Api
             builder.Services.AddScoped<IDishQuery, DishQuery>();
             builder.Services.AddScoped<IMenuQuery, MenuQuery>();
             builder.Services.AddScoped<IOrderQuery, OrderQuery>();
+            builder.Services.AddScoped<IMenuOptionQuery, MenuOptionQuery>();
 
 
 
             //Command
             builder.Services.AddScoped<IDishCommand, DishCommand>();
             builder.Services.AddScoped<IMenuCommand,MenuCommand>();
+            builder.Services.AddScoped<IMenuOptionCommand, MenuOptionCommand>();
+            builder.Services.AddScoped<IOrderCommand, OrderCommand>();
 
             //UseCase
 
@@ -88,6 +97,10 @@ namespace Api
             builder.Services.AddScoped<IGetMenuByIdQuery, GetMenuById>();
             builder.Services.AddScoped<IGetMenuFiltered, GetMenuByFiltered>();
             builder.Services.AddScoped<ICreateMenuCommand,CreateMenuCommand>();
+            builder.Services.AddScoped<IGetNextMenuAvailable,GetNextMenuAvailable>();
+
+            //Order
+            builder.Services.AddScoped<ICreateOrderCommand, CreateOrderCommand>();
 
             ////Personal
             //builder.Services.AddScoped<IPersonalCommand, PersonalCommand>();
@@ -123,15 +136,7 @@ namespace Api
             //            provider.GetRequiredService<IPersonalCommand>());
             //    });
 
-            ////Pedido
-            //builder.Services.AddScoped<IPedidoCommand, PedidoCommand>();
-            //builder.Services.AddScoped<IPedidoQuery, PedidoQuery>();
-            //builder.Services.AddScoped<IPedidoService, PedidoService>();
 
-            ////PedidoPorMenuPlatillo
-            //builder.Services.AddScoped<IPedidoPorMenuPlatilloCommand, PedidoPorMenuPlatilloCommand>();
-            //builder.Services.AddScoped<IPedidoPorMenuPlatilloQuery, PedidoPorMenuPlatilloQuery>();
-            //builder.Services.AddScoped<IPedidoPorMenuPlatilloService, PedidoPorMenuPlatilloService>();
 
             ////Recibo
             //builder.Services.AddScoped<IReciboCommand, ReciboCommand>();
@@ -145,15 +150,14 @@ namespace Api
             ////Costos
             //builder.Services.AddScoped<ICostoService, CostoService>();
 
-            ////Pagos
-            //builder.Services.AddScoped<IPagoQuery, PagoQuery>();
-            //builder.Services.AddScoped<IPagoCommand, PagoCommand>();
-            //builder.Services.AddScoped<IPagoService, PagoService>();
 
             //Automatizacion de pedidos
             //builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
             //builder.Services.AddScoped<IAutomation, AutomationDelivery>();
 
+
+            //UnitOfWork
+            builder.Services.AddScoped<IUnitOfWorkCreateOrder, UnitOfWorkCreateOrder>();
 
             //Autenticacion
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
