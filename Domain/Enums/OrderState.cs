@@ -2,7 +2,7 @@
 {
     public enum OrderState
     {
-        Cancelled = 0,
+        Cancelled = -1,
         InProgress = 1,
         Finished = 2
     }

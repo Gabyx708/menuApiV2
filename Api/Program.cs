@@ -14,6 +14,7 @@ using Application.UseCase.V2.Menu.GetById;
 using Application.UseCase.V2.Menu.GetFilter;
 using Application.UseCase.V2.Menu.GetNextAvailable;
 using Application.UseCase.V2.Menu.GetWithOrders;
+using Application.UseCase.V2.Order.Cancel;
 using Application.UseCase.V2.Order.Create;
 using Infraestructure.Commands;
 using Infraestructure.Persistence;
@@ -103,6 +104,7 @@ namespace Api
 
             //Order
             builder.Services.AddScoped<ICreateOrderCommand, CreateOrderCommand>();
+            builder.Services.AddScoped<ICancelOrderCommand, CancelOrder>();
 
             ////Personal
             //builder.Services.AddScoped<IPersonalCommand, PersonalCommand>();

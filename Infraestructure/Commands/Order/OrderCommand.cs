@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Domain.Enums;
 using Infraestructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infraestructure.Commands
 {
@@ -16,30 +17,43 @@ namespace Infraestructure.Commands
 
         public Order CancelOrder(Guid idOrder)
         {
-            var foundOrder = _context.Orders.Find(idOrder);
+            var foundOrder = _context.Orders
+                                      .Include(o => o.Items)
+                                      .FirstOrDefault(O => O.IdOrder ==idOrder);
 
             if (foundOrder == null)
             {
                 throw new NullReferenceException();
             }
 
-            if (foundOrder.StateCode == (int)OrderState.Finished)
+            if (foundOrder.StateCode == (int)OrderState.Finished || 
+                foundOrder.StateCode == (int)OrderState.Cancelled)
             {
                 throw new InvalidOperationException();
             }
+
 
             var transition = new Transition
             {
                 IdOrder = foundOrder.IdOrder,
                 InitialStateCode = foundOrder.StateCode,
-                FinalStateCode = (int)OrderState.Cancelled,
+                FinalStateCode =(int)OrderState.Cancelled,
                 Date = DateTime.Now
             };
 
+            _context.Transitions.Add(transition);
             foundOrder.StateCode = (int)OrderState.Cancelled;
 
+            foreach (var item in foundOrder.Items)
+            {
+                var menuOp = _context.MenuOptions.Find(item.IdMenu, item.IdDish);
+
+                menuOp!.Requested = (menuOp.Requested - item.Quantity);
+
+                _context.Update(menuOp);
+            }
+
             _context.Orders.Update(foundOrder);
-            _context.Transitions.Add(transition);
 
             _context.SaveChanges();
             return foundOrder;
