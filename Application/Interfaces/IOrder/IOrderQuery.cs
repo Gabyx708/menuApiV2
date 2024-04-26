@@ -9,5 +9,6 @@ namespace Application.Interfaces.IOrder
         PaginatedList<Order> GetOrdersFromUser(string idUser, int index, int quantity);
         PaginatedList<Order> GetAll(int index,int quantity);
         List<Order> GetOrdersByMenuAndUser(Guid idMenu,string idUser);
+        List<Order> GetOrdersByMenu(Guid idMenu);
     }
 }

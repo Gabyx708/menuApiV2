@@ -63,5 +63,6 @@ namespace Infraestructure.Querys
 
             return page;
         }
+
     }
 }

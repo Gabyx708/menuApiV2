@@ -13,6 +13,7 @@ using Application.UseCase.V2.Menu.Create;
 using Application.UseCase.V2.Menu.GetById;
 using Application.UseCase.V2.Menu.GetFilter;
 using Application.UseCase.V2.Menu.GetNextAvailable;
+using Application.UseCase.V2.Menu.GetWithOrders;
 using Application.UseCase.V2.Order.Create;
 using Infraestructure.Commands;
 using Infraestructure.Persistence;
@@ -98,6 +99,7 @@ namespace Api
             builder.Services.AddScoped<IGetMenuFiltered, GetMenuByFiltered>();
             builder.Services.AddScoped<ICreateMenuCommand,CreateMenuCommand>();
             builder.Services.AddScoped<IGetNextMenuAvailable,GetNextMenuAvailable>();
+            builder.Services.AddScoped<IGetMenuWithOrders, GetMenuWithOrders>();
 
             //Order
             builder.Services.AddScoped<ICreateOrderCommand, CreateOrderCommand>();

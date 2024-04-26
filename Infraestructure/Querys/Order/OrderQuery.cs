@@ -53,5 +53,21 @@ namespace Infraestructure.Querys
 
             return PaginatedList<Order>.Create(ordersUser, index, quantity);
         }
+
+        public List<Order> GetOrdersByMenu(Guid idMenu)
+        {
+            var orders = _context.Orders
+                    .Include(order => order.State)
+                    .Include(order => order.User) // Incluye el usuario asociado a cada orden
+                    .Include(order => order.Items) // Incluye los ítems de cada orden
+                        .ThenInclude(item => item.MenuOption) // Incluye la opción de menú asociada a cada ítem
+                            .ThenInclude(option => option.Dish) // Incluye el plato asociado a cada opción de menú
+                    .Where(order => order.Items.Any(item => item.MenuOption.Menu.IdMenu == idMenu)) // Filtra las órdenes relacionadas con el menú específico
+                    .ToList();
+
+
+            return orders;
+        }
+
     }
 }
