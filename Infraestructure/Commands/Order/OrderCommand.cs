@@ -68,7 +68,8 @@ namespace Infraestructure.Commands
                 throw new NullReferenceException();
             }
 
-            if (foundOrder.StateCode == (int)OrderState.Finished)
+            if (foundOrder.StateCode == (int)OrderState.Finished 
+             || foundOrder.StateCode == (int)OrderState.Cancelled)
             {
                 throw new InvalidOperationException();
             }
@@ -86,7 +87,6 @@ namespace Infraestructure.Commands
             _context.Orders.Update(foundOrder);
             _context.Transitions.Add(transition);
 
-            _context.SaveChanges();
             return foundOrder;
         }
 

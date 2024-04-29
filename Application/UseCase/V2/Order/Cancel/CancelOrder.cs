@@ -10,7 +10,9 @@ namespace Application.UseCase.V2.Order.Cancel
         private readonly IOrderQuery orderQuery;
         private readonly IMenuQuery menuQuery;
 
-        public CancelOrder(IOrderCommand orderCommand, IOrderQuery orderQuery, IMenuQuery menuQuery)
+        public CancelOrder(IOrderCommand orderCommand,
+                           IOrderQuery orderQuery,
+                           IMenuQuery menuQuery)
         {
             this.orderCommand = orderCommand;
             this.orderQuery = orderQuery;
@@ -23,17 +25,20 @@ namespace Application.UseCase.V2.Order.Cancel
             Guid idOrderCancel;
             Domain.Entities.Order orderToCancel;
 
-           bool isGuid = Guid.TryParse(idOrder, out idOrderCancel);
+            bool isGuid = Guid.TryParse(idOrder, out idOrderCancel);
 
             if (!isGuid)
             {
                 return Result<SystemResponse>.ValidationResult("The order ID must be of type GUID");
-            } 
-            
+            }
 
-            Guid idMenu = orderQuery.GetOrderById(idOrderCancel).Items.First().IdMenu;
+            var order = orderQuery.GetOrderById(idOrderCancel);
+            DateTime closeDateMenu =  menuQuery.GetMenuById(order.Items.First().MenuOption.IdMenu).CloseDate;
 
-            var menu = menuQuery.GetMenuById(idMenu);
+            if (DateTime.Now > closeDateMenu)
+            {
+                return Result<SystemResponse>.ConflictResult("This menu is closed, you can't cancel your order");
+            }
 
             try
             {
@@ -42,6 +47,10 @@ namespace Application.UseCase.V2.Order.Cancel
             catch (InvalidOperationException)
             {
                 return Result<SystemResponse>.ConflictResult("This order has already been finished or cancelled");
+            }
+            catch (NullReferenceException)
+            {
+                return Result<SystemResponse>.NotFoundResult($"The order with id {idOrder} was not found");
             }
 
             var response = new SystemResponse

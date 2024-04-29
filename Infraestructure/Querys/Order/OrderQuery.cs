@@ -25,6 +25,12 @@ namespace Infraestructure.Querys
         public Order GetOrderById(Guid id)
         {
             return _context.Orders
+                            .Include(o => o.Receipt)
+                            .ThenInclude(r => r.Discount)
+                            .Include(o => o.Transitions)
+                            .ThenInclude(t => t.InitialState)
+                            .Include(o => o.Transitions)
+                            .ThenInclude(t => t.FinalSate)
                             .Include(o => o.User)
                             .Include(o => o.State)
                             .Include(o => o.Items)
@@ -49,7 +55,8 @@ namespace Infraestructure.Querys
 
         public PaginatedList<Order> GetOrdersFromUser(string idUser, int index, int quantity)
         {
-            var ordersUser = _context.Orders.Where(o => o.IdUser == idUser);
+            var ordersUser = _context.Orders.Where(o => o.IdUser == idUser)
+                                            .OrderByDescending(o => o.OrderDate);
 
             return PaginatedList<Order>.Create(ordersUser, index, quantity);
         }

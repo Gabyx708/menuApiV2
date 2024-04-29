@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces.IMenu;
 using Application.Interfaces.IOrder;
+using Domain.Enums;
 using FluentValidation;
 
 namespace Application.UseCase.V2.Order.Create
@@ -38,11 +39,14 @@ namespace Application.UseCase.V2.Order.Create
         {
             var orders = orderQuery.GetOrdersByMenuAndUser(idMenu, idUser);
 
-            if (orders.Count > 0)
+            foreach (var order in orders)
             {
-                return false;
+                if (order.StateCode == (int)OrderState.InProgress 
+                   || order.StateCode == (int)OrderState.Finished)
+                {
+                    return false;
+                } 
             }
-
             return true;
         }
 
@@ -62,7 +66,7 @@ namespace Application.UseCase.V2.Order.Create
 
                 var option = menu.Options.FirstOrDefault(o => o.IdDish == idDish);
 
-                bool stockAvailable = (option!.Requested + item.Quantity) >= option.Stock;
+                bool stockAvailable = (option!.Requested + item.Quantity) > option.Stock;
 
                 if (option == null || option.Requested == option.Stock || stockAvailable)
                 {

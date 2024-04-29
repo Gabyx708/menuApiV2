@@ -11,7 +11,7 @@
         public Receipt? Receipt { get; set; }
         public Authorization? Authorization { get; set; }
 
-        public ICollection<OrderItem> Items { get; set; } = null!;
-        public ICollection<Transition> Transitions { get; set; } = null!;
+        public virtual ICollection<OrderItem> Items { get; set; } = null!;
+        public virtual ICollection<Transition> Transitions { get; set; } = null!;
     }
 }

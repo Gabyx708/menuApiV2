@@ -1,8 +1,10 @@
 using Application.Interfaces.I;
+using Application.Interfaces.IDiscount;
 using Application.Interfaces.IDish;
 using Application.Interfaces.IMenu;
 using Application.Interfaces.IMenuOption;
 using Application.Interfaces.IOrder;
+using Application.Interfaces.IReceipt;
 using Application.Interfaces.IUnitOfWork;
 using Application.Tools.Log;
 using Application.UseCase.V2.Dish.Create;
@@ -16,6 +18,8 @@ using Application.UseCase.V2.Menu.GetNextAvailable;
 using Application.UseCase.V2.Menu.GetWithOrders;
 using Application.UseCase.V2.Order.Cancel;
 using Application.UseCase.V2.Order.Create;
+using Application.UseCase.V2.Order.Finished;
+using Application.UseCase.V2.Order.GetById;
 using Infraestructure.Commands;
 using Infraestructure.Persistence;
 using Infraestructure.Querys;
@@ -78,14 +82,14 @@ namespace Api
             builder.Services.AddScoped<IMenuQuery, MenuQuery>();
             builder.Services.AddScoped<IOrderQuery, OrderQuery>();
             builder.Services.AddScoped<IMenuOptionQuery, MenuOptionQuery>();
-
-
+            builder.Services.AddScoped<IDiscountQuery, DiscountQuery>();
 
             //Command
             builder.Services.AddScoped<IDishCommand, DishCommand>();
             builder.Services.AddScoped<IMenuCommand,MenuCommand>();
             builder.Services.AddScoped<IMenuOptionCommand, MenuOptionCommand>();
             builder.Services.AddScoped<IOrderCommand, OrderCommand>();
+            builder.Services.AddScoped<IReceiptCommand, ReceiptCommand>();
 
             //UseCase
 
@@ -105,6 +109,8 @@ namespace Api
             //Order
             builder.Services.AddScoped<ICreateOrderCommand, CreateOrderCommand>();
             builder.Services.AddScoped<ICancelOrderCommand, CancelOrder>();
+            builder.Services.AddScoped<IGetOrderByIdQuery, GetOrderById>();
+            builder.Services.AddScoped<IFinishedOrderCommand, FinishedOrderCommand>();
 
             ////Personal
             //builder.Services.AddScoped<IPersonalCommand, PersonalCommand>();
@@ -162,6 +168,7 @@ namespace Api
 
             //UnitOfWork
             builder.Services.AddScoped<IUnitOfWorkCreateOrder, UnitOfWorkCreateOrder>();
+            builder.Services.AddScoped<IUnitOfWorkFinishedOrder, UnitOfWorkFinishedOrder>();
 
             //Autenticacion
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
