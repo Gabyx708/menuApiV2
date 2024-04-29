@@ -4,7 +4,7 @@ using Application.Request.PersonalRequests;
 using Application.Request.UsuarioLoginRequests;
 using Application.Response.PersonalResponses;
 using Application.Response.UsuarioLoginResponse;
-using Application.Tools.Encrypt;
+using Application.Helpers.Encrypt;
 using Domain.Entities;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Application.Tools.Encrypt
+namespace Application.Helpers.Encrypt
 {
     public class Encrypt256
     {
@@ -16,7 +16,6 @@ namespace Application.Tools.Encrypt
             for (int i = 0; i < stream.Length; i++) { sb.AppendFormat("{0:x2}", stream[i]); };
 
             return sb.ToString();
-
         }
     }
 }

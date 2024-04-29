@@ -53,13 +53,17 @@ namespace Infraestructure.Querys
             return orders.ToList();
         }
 
-        public PaginatedList<Order> GetOrdersFromUser(string idUser, int index, int quantity)
+        public PaginatedList<Order> GetOrdersFromUser(string idUser, DateTime? startDate, DateTime? endDate, int index, int quantity)
         {
-            var ordersUser = _context.Orders.Where(o => o.IdUser == idUser)
-                                            .OrderByDescending(o => o.OrderDate);
+            var ordersUser = _context.Orders
+                                      .Where(o => o.IdUser == idUser &&
+                                                  (!startDate.HasValue || o.OrderDate >= startDate) &&
+                                                  (!endDate.HasValue || o.OrderDate <= endDate))
+                                      .OrderByDescending(o => o.OrderDate);
 
             return PaginatedList<Order>.Create(ordersUser, index, quantity);
         }
+
 
         public List<Order> GetOrdersByMenu(Guid idMenu)
         {

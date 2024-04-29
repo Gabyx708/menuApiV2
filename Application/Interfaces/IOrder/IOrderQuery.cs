@@ -6,7 +6,7 @@ namespace Application.Interfaces.IOrder
     public interface IOrderQuery
     {
         Order GetOrderById(Guid id);
-        PaginatedList<Order> GetOrdersFromUser(string idUser, int index, int quantity);
+        PaginatedList<Order> GetOrdersFromUser(string idUser,DateTime? startDate,DateTime? endDate,int index,int quantity);
         PaginatedList<Order> GetAll(int index,int quantity);
         List<Order> GetOrdersByMenuAndUser(Guid idMenu,string idUser);
         List<Order> GetOrdersByMenu(Guid idMenu);

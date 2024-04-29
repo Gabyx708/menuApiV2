@@ -1,3 +1,4 @@
+using Application.Helpers.Logger;
 using Application.Interfaces.I;
 using Application.Interfaces.IDiscount;
 using Application.Interfaces.IDish;
@@ -6,7 +7,7 @@ using Application.Interfaces.IMenuOption;
 using Application.Interfaces.IOrder;
 using Application.Interfaces.IReceipt;
 using Application.Interfaces.IUnitOfWork;
-using Application.Tools.Log;
+using Application.Interfaces.IUser;
 using Application.UseCase.V2.Dish.Create;
 using Application.UseCase.V2.Dish.GetByDescription;
 using Application.UseCase.V2.Dish.GetById;
@@ -20,6 +21,8 @@ using Application.UseCase.V2.Order.Cancel;
 using Application.UseCase.V2.Order.Create;
 using Application.UseCase.V2.Order.Finished;
 using Application.UseCase.V2.Order.GetById;
+using Application.UseCase.V2.User.Create;
+using Application.UseCase.V2.User.GetAll;
 using Infraestructure.Commands;
 using Infraestructure.Persistence;
 using Infraestructure.Querys;
@@ -83,13 +86,16 @@ namespace Api
             builder.Services.AddScoped<IOrderQuery, OrderQuery>();
             builder.Services.AddScoped<IMenuOptionQuery, MenuOptionQuery>();
             builder.Services.AddScoped<IDiscountQuery, DiscountQuery>();
+            builder.Services.AddScoped<IUserQuery, UserQuery>();
+
 
             //Command
             builder.Services.AddScoped<IDishCommand, DishCommand>();
-            builder.Services.AddScoped<IMenuCommand,MenuCommand>();
+            builder.Services.AddScoped<IMenuCommand, MenuCommand>();
             builder.Services.AddScoped<IMenuOptionCommand, MenuOptionCommand>();
             builder.Services.AddScoped<IOrderCommand, OrderCommand>();
             builder.Services.AddScoped<IReceiptCommand, ReceiptCommand>();
+            builder.Services.AddScoped<IUserCommand, UserCommand>();
 
             //UseCase
 
@@ -102,8 +108,8 @@ namespace Api
             //Menu
             builder.Services.AddScoped<IGetMenuByIdQuery, GetMenuById>();
             builder.Services.AddScoped<IGetMenuFiltered, GetMenuByFiltered>();
-            builder.Services.AddScoped<ICreateMenuCommand,CreateMenuCommand>();
-            builder.Services.AddScoped<IGetNextMenuAvailable,GetNextMenuAvailable>();
+            builder.Services.AddScoped<ICreateMenuCommand, CreateMenuCommand>();
+            builder.Services.AddScoped<IGetNextMenuAvailable, GetNextMenuAvailable>();
             builder.Services.AddScoped<IGetMenuWithOrders, GetMenuWithOrders>();
 
             //Order
@@ -112,10 +118,9 @@ namespace Api
             builder.Services.AddScoped<IGetOrderByIdQuery, GetOrderById>();
             builder.Services.AddScoped<IFinishedOrderCommand, FinishedOrderCommand>();
 
-            ////Personal
-            //builder.Services.AddScoped<IPersonalCommand, PersonalCommand>();
-            //builder.Services.AddScoped<IPersonalQuery, PersonalQuery>();
-            //builder.Services.AddScoped<IPersonalService, PersonalService>();
+            //User
+            builder.Services.AddScoped<ICreateUserCommand, CreateUser>();
+            builder.Services.AddScoped<IGetUsers, GetAllUsersQuery>();
 
             ////Platillos
             //builder.Services.AddScoped<IPlatilloQuery, PlatilloQuery>();
@@ -123,15 +128,6 @@ namespace Api
             //builder.Services.AddScoped<IPlatilloService, PlatilloService>();
 
 
-            ////MenuPlatillo
-            //builder.Services.AddScoped<IMenuPlatilloCommand, MenuPlatilloCommand>();
-            //builder.Services.AddScoped<IMenuPlatilloQuery, MenuPlatilloQuery>();
-            //builder.Services.AddScoped<IMenuPlatilloService, MenuPlatilloService>();
-
-            ////Descuento
-            //builder.Services.AddScoped<IDescuentoCommand, DescuentoCommand>();
-            //builder.Services.AddScoped<IDescuentoQuery, DescuentoQuery>();
-            //builder.Services.AddScoped<IDescuentoService, DescuentoService>();
 
             ////autenticacion
             //builder.Services.AddScoped<IAuthenticacionQuery, AutehenticationQuery>();
