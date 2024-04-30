@@ -1,9 +1,8 @@
 ﻿using Application.Common.Models;
 using Application.Interfaces.IUser;
-using Application.UseCase.V2.Order.Create;
 using Application.UseCase.V2.User.Create;
 using Application.UseCase.V2.User.GetAll;
-using Microsoft.AspNetCore.Http;
+using Application.UseCase.V2.User.GetOrders;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -13,12 +12,14 @@ namespace Api.Controllers
     public class UserController : ControllerBase
     {
         private readonly ICreateUserCommand _createUserCommand;
+        private readonly IGetUserOrdersQuery _getUserOrders;
         private readonly IGetUsers _getAllUsers;
 
-        public UserController(ICreateUserCommand createUserCommand, IGetUsers getAllUsers)
+        public UserController(ICreateUserCommand createUserCommand, IGetUsers getAllUsers, IGetUserOrdersQuery getUserOrders)
         {
             _createUserCommand = createUserCommand;
             _getAllUsers = getAllUsers;
+            _getUserOrders = getUserOrders;
         }
 
         [HttpPost]
@@ -44,10 +45,29 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(PaginatedListResponse<UserResponse>),200)]
-        public IActionResult GetAllUsersList(int? index,int? quantity)
+        [ProducesResponseType(typeof(PaginatedListResponse<UserResponse>), 200)]
+        public IActionResult GetAllUsersList(int? index, int? quantity)
         {
-            var result = _getAllUsers.GetAllUsers(index ?? 1,quantity ?? 10);
+            var result = _getAllUsers.GetAllUsers(index ?? 1, quantity ?? 10);
+
+            if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+
+            return new JsonResult(new SystemResponse
+            {
+                StatusCode = result.StatusCode,
+                Message = result.ErrorMessage
+            })
+            { StatusCode = result.StatusCode };
+        }
+
+        [HttpGet("{id}/orders")]
+        [ProducesResponseType(typeof(GetUserOrdersResponse), 200)]
+        public IActionResult GetOrdersOfUserById(string id, DateTime? startDate, DateTime? finalDate, int? index, int? quantity)
+        {
+            var result = _getUserOrders.GetOrdersOfUser(id, startDate, finalDate, index ?? 1, quantity ?? 5);
 
             if (result.Success)
             {

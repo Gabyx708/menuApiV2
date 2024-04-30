@@ -23,6 +23,7 @@ using Application.UseCase.V2.Order.Finished;
 using Application.UseCase.V2.Order.GetById;
 using Application.UseCase.V2.User.Create;
 using Application.UseCase.V2.User.GetAll;
+using Application.UseCase.V2.User.GetOrders;
 using Infraestructure.Commands;
 using Infraestructure.Persistence;
 using Infraestructure.Querys;
@@ -121,6 +122,7 @@ namespace Api
             //User
             builder.Services.AddScoped<ICreateUserCommand, CreateUser>();
             builder.Services.AddScoped<IGetUsers, GetAllUsersQuery>();
+            builder.Services.AddScoped<IGetUserOrdersQuery, GetUserOrders>();
 
             ////Platillos
             //builder.Services.AddScoped<IPlatilloQuery, PlatilloQuery>();

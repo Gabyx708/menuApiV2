@@ -56,6 +56,7 @@ namespace Infraestructure.Querys
         public PaginatedList<Order> GetOrdersFromUser(string idUser, DateTime? startDate, DateTime? endDate, int index, int quantity)
         {
             var ordersUser = _context.Orders
+                                      .Include(o => o.State)
                                       .Where(o => o.IdUser == idUser &&
                                                   (!startDate.HasValue || o.OrderDate >= startDate) &&
                                                   (!endDate.HasValue || o.OrderDate <= endDate))
