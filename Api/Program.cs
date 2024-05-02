@@ -136,7 +136,7 @@ namespace Api
             builder.Services.AddScoped<ISignIn>(
                             provider =>
                             {
-                                return new UserSignIn(
+                                return new UserSignInCommand(
                                 provider.GetRequiredService<IAuthenticationQuery>(),
                                 secret);
                              });
@@ -175,8 +175,8 @@ namespace Api
                      IssuerSigningKey = new SymmetricSecurityKey(
                          Encoding.UTF8.GetBytes(secret)
                  ),
-                     ValidIssuer = "menuServ",
-                     ValidAudience = "app-fronted",
+                     ValidIssuer = "menu-service",
+                     ValidAudience = "app-frontend",
                      ClockSkew = TimeSpan.FromHours(1)
 
                  };

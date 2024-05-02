@@ -93,7 +93,7 @@ namespace Api.Controllers
             { StatusCode = result.StatusCode };
         }
 
-        [Authorize
+        [Authorize]
         [HttpPatch("{id}/finished")]
         [ProducesResponseType(typeof(SystemResponse), 200)]
         [ProducesResponseType(typeof(SystemResponse), 409)]

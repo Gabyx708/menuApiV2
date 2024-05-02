@@ -7,12 +7,12 @@ using System.Text;
 
 namespace Application.UseCase.V2.User.SignIn
 {
-    public class UserSignIn : ISignIn
+    public class UserSignInCommand : ISignIn
     {
         private readonly IAuthenticationQuery authenticacionQuery;
         private readonly string secret;
 
-        public UserSignIn(IAuthenticationQuery authenticacionQuery, string secret)
+        public UserSignInCommand(IAuthenticationQuery authenticacionQuery, string secret)
         {
             this.authenticacionQuery = authenticacionQuery;
             this.secret = secret;

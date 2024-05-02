@@ -1,4 +1,5 @@
-﻿using Application.Interfaces.IMenu;
+﻿using Application.Common.Models;
+using Application.Interfaces.IMenu;
 using Application.UseCase.V2.Menu.GetById;
 
 namespace Application.UseCase.V2.Menu.GetNextAvailable
@@ -19,6 +20,9 @@ namespace Application.UseCase.V2.Menu.GetNextAvailable
             try
             {
                 nextMenu = menuQuery.GetNextAvailableMenu();
+            }catch(NullReferenceException)
+            {
+                return Result<GetNextMenuResponse>.NotFoundResult("There is no menu available");
             }
             catch (Exception)
             {
