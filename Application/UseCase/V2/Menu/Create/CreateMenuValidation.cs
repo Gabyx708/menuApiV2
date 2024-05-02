@@ -17,6 +17,10 @@ namespace Application.UseCase.V2.Menu.Create
             RuleFor(cr => cr.Options)
                     .Must(options => options != null && options.Any())
                     .WithMessage("Options list must contain at least one element.");
+
+            RuleFor(cr => cr.EatingDate)
+                   .GreaterThan(DateTime.Now)
+                   .WithMessage("The eating date must be older than the current date");
         }
     }
 }

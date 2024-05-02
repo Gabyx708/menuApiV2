@@ -1,11 +1,13 @@
 using Application.Helpers.Logger;
 using Application.Interfaces.I;
+using Application.Interfaces.IAuthentication;
 using Application.Interfaces.IDiscount;
 using Application.Interfaces.IDish;
 using Application.Interfaces.IMenu;
 using Application.Interfaces.IMenuOption;
 using Application.Interfaces.IOrder;
 using Application.Interfaces.IReceipt;
+using Application.Interfaces.ISession;
 using Application.Interfaces.IUnitOfWork;
 using Application.Interfaces.IUser;
 using Application.UseCase.V2.Dish.Create;
@@ -21,16 +23,21 @@ using Application.UseCase.V2.Order.Cancel;
 using Application.UseCase.V2.Order.Create;
 using Application.UseCase.V2.Order.Finished;
 using Application.UseCase.V2.Order.GetById;
+using Application.UseCase.V2.User.ChangePassword;
 using Application.UseCase.V2.User.Create;
 using Application.UseCase.V2.User.GetAll;
+using Application.UseCase.V2.User.GetById;
 using Application.UseCase.V2.User.GetOrders;
+using Application.UseCase.V2.User.SignIn;
 using Infraestructure.Commands;
 using Infraestructure.Persistence;
 using Infraestructure.Querys;
+using Infraestructure.Querys.Authentication;
 using Infraestructure.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 namespace Api
@@ -88,6 +95,7 @@ namespace Api
             builder.Services.AddScoped<IMenuOptionQuery, MenuOptionQuery>();
             builder.Services.AddScoped<IDiscountQuery, DiscountQuery>();
             builder.Services.AddScoped<IUserQuery, UserQuery>();
+            builder.Services.AddScoped<IAuthenticationQuery, AuthenticacionQuery>();
 
 
             //Command
@@ -123,27 +131,15 @@ namespace Api
             builder.Services.AddScoped<ICreateUserCommand, CreateUser>();
             builder.Services.AddScoped<IGetUsers, GetAllUsersQuery>();
             builder.Services.AddScoped<IGetUserOrdersQuery, GetUserOrders>();
-
-            ////Platillos
-            //builder.Services.AddScoped<IPlatilloQuery, PlatilloQuery>();
-            //builder.Services.AddScoped<IPlatilloCommand, PlatilloCommand>();
-            //builder.Services.AddScoped<IPlatilloService, PlatilloService>();
-
-
-
-            ////autenticacion
-            //builder.Services.AddScoped<IAuthenticacionQuery, AutehenticationQuery>();
-            //builder.Services.AddScoped<IAuthenticationService>(
-            //    provider =>
-            //    {
-            //        return new AuthenticationService(
-            //            secret,
-            //            provider.GetRequiredService<IAuthenticacionQuery>(),
-            //            provider.GetRequiredService<IPersonalService>(),
-            //            provider.GetRequiredService<IPersonalQuery>(),
-            //            provider.GetRequiredService<IPersonalCommand>());
-            //    });
-
+            builder.Services.AddScoped<IGetUserByIdQuery, GetById>();
+            builder.Services.AddScoped<IChangePassword, ChangePasswordCommand>();
+            builder.Services.AddScoped<ISignIn>(
+                            provider =>
+                            {
+                                return new UserSignIn(
+                                provider.GetRequiredService<IAuthenticationQuery>(),
+                                secret);
+                             });
 
 
             ////Recibo
@@ -168,7 +164,9 @@ namespace Api
             builder.Services.AddScoped<IUnitOfWorkCreateOrder, UnitOfWorkCreateOrder>();
             builder.Services.AddScoped<IUnitOfWorkFinishedOrder, UnitOfWorkFinishedOrder>();
 
-            //Autenticacion
+            //Authentication
+
+
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>
              {
@@ -178,7 +176,7 @@ namespace Api
                          Encoding.UTF8.GetBytes(secret)
                  ),
                      ValidIssuer = "menuServ",
-                     ValidAudience = "menu",
+                     ValidAudience = "app-fronted",
                      ClockSkew = TimeSpan.FromHours(1)
 
                  };
@@ -194,6 +192,31 @@ namespace Api
                            .AllowAnyHeader();
                 });
             });
+
+
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MENU API", Version = "v2" });
+
+                // Configuración de Swagger para incluir JWT
+                var securityScheme = new OpenApiSecurityScheme
+                {
+                    Name = "JWT Authentication",
+                    Description = "Enter JWT Bearer token **_only_**",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer", // Esquema del token
+                    BearerFormat = "JWT" // Formato del token
+                };
+                c.AddSecurityDefinition("Bearer", securityScheme);
+
+                var securityRequirement = new OpenApiSecurityRequirement
+                {
+                { securityScheme, new[] { "Bearer" } }
+                };
+                c.AddSecurityRequirement(securityRequirement);
+                });
+
 
             var app = builder.Build();
 

@@ -5,6 +5,7 @@ using Application.UseCase.V2.Menu.GetById;
 using Application.UseCase.V2.Menu.GetFilter;
 using Application.UseCase.V2.Menu.GetNextAvailable;
 using Application.UseCase.V2.Menu.GetWithOrders;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -33,6 +34,7 @@ namespace Api.Controllers
             _GetMenuWithOrders = getMenuWithOrders;
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(GetMenuByIdResponse), 200)]
         [ProducesResponseType(typeof(SystemResponse), 404)]
@@ -54,6 +56,7 @@ namespace Api.Controllers
             { StatusCode = result.StatusCode };
         }
 
+        [Authorize]
         [HttpGet]
         [ProducesResponseType(typeof(PaginatedListResponse<GetMenuFilterResponse>), 200)]
         [ProducesResponseType(typeof(SystemResponse), 400)]
@@ -74,6 +77,7 @@ namespace Api.Controllers
             { StatusCode = result.StatusCode };
         }
 
+        [Authorize]
         [HttpPost]
         [ProducesResponseType(typeof(CreateMenuResponse), 201)]
         [ProducesResponseType(typeof(SystemResponse), 400)]
@@ -95,6 +99,7 @@ namespace Api.Controllers
             { StatusCode = result.StatusCode };
         }
 
+        [Authorize]
         [HttpGet("next-available")]
         [ProducesResponseType(typeof(GetNextMenuResponse), 200)]
         [ProducesResponseType(typeof(SystemResponse), 500)]

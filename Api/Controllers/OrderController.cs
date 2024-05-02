@@ -2,6 +2,7 @@
 using Application.Interfaces.IOrder;
 using Application.UseCase.V2.Order.Create;
 using Application.UseCase.V2.Order.GetById;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -26,6 +27,7 @@ namespace Api.Controllers
             _finishedOrderCommand = finishedOrderCommand;
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(OrderByIdResponse),200)]
         [ProducesResponseType(typeof(SystemResponse), 404)]
@@ -69,6 +71,7 @@ namespace Api.Controllers
 
         }
 
+        [Authorize]
         [HttpPatch("{id}/cancel")]
         [ProducesResponseType(typeof(SystemResponse),200)]
         [ProducesResponseType(typeof(SystemResponse),500)]
@@ -90,6 +93,7 @@ namespace Api.Controllers
             { StatusCode = result.StatusCode };
         }
 
+        [Authorize
         [HttpPatch("{id}/finished")]
         [ProducesResponseType(typeof(SystemResponse), 200)]
         [ProducesResponseType(typeof(SystemResponse), 409)]

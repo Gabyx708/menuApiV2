@@ -52,5 +52,10 @@ namespace Application
         {
             return new Result<T>(false, default(T), errorMessage, 409);
         }
+
+        public static Result<T> UnauthrorizedResult(string errorMessage)
+        {
+            return new Result<T>(false, default(T), errorMessage, 401);
+        }
     }
 }

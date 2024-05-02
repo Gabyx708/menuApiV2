@@ -3,6 +3,7 @@ using Application.Interfaces.IDish;
 using Application.UseCase.V2.Dish.Create;
 using Application.UseCase.V2.Dish.GetByDescription;
 using Application.UseCase.V2.Dish.GetById;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -27,6 +28,7 @@ namespace Api.Controllers
             _updateDishesPrice = updateDishesPrice;
         }
 
+        [Authorize]
         [HttpPost]
         [ProducesResponseType(typeof(CreateDishResponse), 201)]
         [ProducesResponseType(typeof(SystemResponse), 400)]
@@ -90,7 +92,7 @@ namespace Api.Controllers
             { StatusCode = result.StatusCode };
         }
 
-
+        [Authorize]
         [HttpPost("update-prices/{price}")]
         [ProducesResponseType(typeof(SystemResponse),200)]
         public IActionResult UpdateAllDishesPrice(decimal price)
