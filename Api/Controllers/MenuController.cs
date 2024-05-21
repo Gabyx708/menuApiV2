@@ -4,6 +4,7 @@ using Application.UseCase.V2.Menu.Create;
 using Application.UseCase.V2.Menu.GetById;
 using Application.UseCase.V2.Menu.GetFilter;
 using Application.UseCase.V2.Menu.GetNextAvailable;
+using Application.UseCase.V2.Menu.GetUserOrderFromMenu;
 using Application.UseCase.V2.Menu.GetWithOrders;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,18 +21,21 @@ namespace Api.Controllers
         private readonly IGetNextMenuAvailable _GetNextMenu;
         private readonly IGetMenuWithOrders _GetMenuWithOrders;
         private readonly ICreateMenuCommand _CreateMenuCommand;
+        private readonly IGetUserOrdersFromMenu _GetOrderFromMenu;
 
         public MenuController(IGetMenuByIdQuery getMenuById,
                               IGetMenuFiltered getMenuFiltered,
                               ICreateMenuCommand createMenuCommand,
                               IGetNextMenuAvailable getNextMenu,
-                              IGetMenuWithOrders getMenuWithOrders)
+                              IGetMenuWithOrders getMenuWithOrders,
+                              IGetUserOrdersFromMenu getOrderFromMenu)
         {
             _GetMenuById = getMenuById;
             _GetMenuFiltered = getMenuFiltered;
             _CreateMenuCommand = createMenuCommand;
             _GetNextMenu = getNextMenu;
             _GetMenuWithOrders = getMenuWithOrders;
+            _GetOrderFromMenu = getOrderFromMenu;
         }
 
         [Authorize]
@@ -125,6 +129,27 @@ namespace Api.Controllers
         public IActionResult GetMenuByIdWithAllOrders(Guid id)
         {
             var result = _GetMenuWithOrders.GetMenuWithAllOrders(id);
+
+            if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+
+            return new JsonResult(new SystemResponse
+            {
+                StatusCode = result.StatusCode,
+                Message = result.ErrorMessage
+            })
+            { StatusCode = result.StatusCode };
+        }
+
+        [HttpGet("{id}/user/{userId}/orders")]
+        [ProducesResponseType(typeof(List<UserOrderFromMenu>), 200)]
+        [ProducesResponseType(typeof(SystemResponse), 400)]
+        [ProducesResponseType(typeof(SystemResponse), 404)]
+        public IActionResult GetUserOrdersFromMenu(string id,string userId)
+        {
+            var result = _GetOrderFromMenu.GetUserOrdersFromMenu(id, userId);
 
             if (result.Success)
             {

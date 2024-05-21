@@ -48,7 +48,19 @@ namespace Infraestructure.Querys
                                    Where(oi => oi.IdMenu == idMenu)
                                    .Select(oi => oi.IdOrder);
 
-            orders = orders.Where(o => orderIdsWithIdMenu.Contains(o.IdOrder));
+            orders = orders
+                            .Include(o => o.Receipt)
+                            .ThenInclude(r => r.Discount)
+                            .Include(o => o.Transitions)
+                            .ThenInclude(t => t.InitialState)
+                            .Include(o => o.Transitions)
+                            .ThenInclude(t => t.FinalSate)
+                            .Include(o => o.User)
+                            .Include(o => o.State)
+                            .Include(o => o.Items)
+                            .ThenInclude(item => item.MenuOption)
+                            .ThenInclude(moption => moption.Dish)
+                            .Where(o => orderIdsWithIdMenu.Contains(o.IdOrder));
 
             return orders.ToList();
         }

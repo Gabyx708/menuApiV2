@@ -29,7 +29,8 @@ namespace Infraestructure.Querys
 
             return _context.Menues
                             .Where(m => m.EatingDate >= currentDate)
-                            .OrderBy(m => m.EatingDate)
+                            .Where(m => m.CloseDate >= currentDate)
+                            .OrderBy(m => m.CloseDate)
                             .Include(menu => menu.Options)
                             .ThenInclude(menuOption => menuOption.Dish)
                             .FirstOrDefault()
