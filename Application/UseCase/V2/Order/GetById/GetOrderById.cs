@@ -39,6 +39,7 @@ namespace Application.UseCase.V2.Order.GetById
             {
                 Id = order.IdOrder,
                 Date = order.OrderDate,
+                Menu = order.Items.First().IdMenu,
                 User = new UserOrderResponse { Id = order.User.IdUser, Name = $"{order.User.Name} {order.User.LastName}" },
                 Items = items,
                 State = new StateResponse { Id = order.State.StateCode, Description = order.State.Description },

@@ -4,6 +4,7 @@
     {
         public Guid Id { get; set; }
         public DateTime Date { get; set; }
+        public Guid Menu {get;set;}
         public UserOrderResponse User { get; set; } = null!;
         public List<ITemOrder> Items { get; set; } = null!;
         public StateResponse State { get; set; } = null!;
