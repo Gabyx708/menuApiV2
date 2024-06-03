@@ -43,7 +43,7 @@ namespace Infraestructure.Querys
 
             if (InitialDate != null)
             {
-                menues = menues.Where(m => m.UploadDate.Date > InitialDate);
+                menues = menues.Where(m => m.EatingDate.Date > InitialDate);
             }
 
             if (FinalDate != null)
