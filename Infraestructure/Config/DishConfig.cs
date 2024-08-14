@@ -10,6 +10,8 @@ namespace Infraestructure.Config
         {
             builder.HasKey(p => p.IdDish);
 
+            builder.HasIndex(p => p.Description).IsUnique();
+            builder.Property(p => p.Description).HasMaxLength(150);
             builder.Property(p => p.IdDish).ValueGeneratedOnAdd();
         }
     }

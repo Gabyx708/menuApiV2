@@ -22,7 +22,7 @@ namespace Infraestructure.Migrations
             modelBuilder.Entity("Domain.Entities.Authorization", b =>
                 {
                     b.Property<string>("IdUser")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<Guid>("IdOrder")
                         .HasColumnType("char(36)");
@@ -58,9 +58,9 @@ namespace Infraestructure.Migrations
                     b.HasData(
                         new
                         {
-                            IdDiscount = new Guid("270e2cbf-b6bb-4a7f-854a-ef67b8447888"),
+                            IdDiscount = new Guid("0914fd36-c439-4dbd-a366-c3f079d4424e"),
                             Percentage = 50m,
-                            StartDate = new DateTime(2024, 4, 19, 14, 25, 19, 935, DateTimeKind.Local).AddTicks(8915)
+                            StartDate = new DateTime(2024, 8, 14, 15, 4, 37, 693, DateTimeKind.Local).AddTicks(3482)
                         });
                 });
 
@@ -75,72 +75,18 @@ namespace Infraestructure.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar(150)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("IdDish");
 
-                    b.ToTable("Dishes");
+                    b.HasIndex("Description")
+                        .IsUnique();
 
-                    b.HasData(
-                        new
-                        {
-                            IdDish = 1,
-                            Activated = true,
-                            Description = "Ravioli de ricotta y espinacas con salsa de tomate",
-                            Price = 1000m
-                        },
-                        new
-                        {
-                            IdDish = 2,
-                            Activated = true,
-                            Description = "milanesa a la napolitana",
-                            Price = 3000m
-                        },
-                        new
-                        {
-                            IdDish = 3,
-                            Activated = true,
-                            Description = "Ceviche de camarón y pescado",
-                            Price = 2800m
-                        },
-                        new
-                        {
-                            IdDish = 4,
-                            Activated = true,
-                            Description = "Costillas de cerdo a la barbacoa con salsa ahumada",
-                            Price = 357m
-                        },
-                        new
-                        {
-                            IdDish = 5,
-                            Activated = true,
-                            Description = "Paella mixta de mariscos y pollo",
-                            Price = 1890m
-                        },
-                        new
-                        {
-                            IdDish = 6,
-                            Activated = true,
-                            Description = "Salmón con verduras salteadas y arroz jazmín",
-                            Price = 100m
-                        },
-                        new
-                        {
-                            IdDish = 7,
-                            Activated = true,
-                            Description = "Lasaña de carne y verduras con capas de pasta",
-                            Price = 1200m
-                        },
-                        new
-                        {
-                            IdDish = 8,
-                            Activated = true,
-                            Description = "Pechuga de pollo rellena de queso de cabra ",
-                            Price = 1500m
-                        });
+                    b.ToTable("Dishes");
                 });
 
             modelBuilder.Entity("Domain.Entities.Menu", b =>
@@ -195,7 +141,7 @@ namespace Infraestructure.Migrations
 
                     b.Property<string>("IdUser")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime(6)");
@@ -303,7 +249,8 @@ namespace Infraestructure.Migrations
             modelBuilder.Entity("Domain.Entities.User", b =>
                 {
                     b.Property<string>("IdUser")
-                        .HasColumnType("varchar(255)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime(6)");
@@ -335,6 +282,19 @@ namespace Infraestructure.Migrations
                     b.HasKey("IdUser");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            IdUser = "admin",
+                            BirthDate = new DateTime(1800, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LastName = "not use",
+                            Name = "admin",
+                            NickName = "admin",
+                            Password = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
+                            Privilege = 1,
+                            RegistrationDate = new DateTime(2024, 8, 14, 15, 4, 37, 693, DateTimeKind.Local).AddTicks(3675)
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Authorization", b =>

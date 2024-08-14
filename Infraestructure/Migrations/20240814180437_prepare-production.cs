@@ -4,12 +4,10 @@ using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace Infraestructure.Migrations
 {
     /// <inheritdoc />
-    public partial class v4 : Migration
+    public partial class prepareproduction : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -37,7 +35,7 @@ namespace Infraestructure.Migrations
                 {
                     IdDish = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(type: "longtext", nullable: false),
+                    Description = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Activated = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
@@ -80,7 +78,7 @@ namespace Infraestructure.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    IdUser = table.Column<string>(type: "varchar(255)", nullable: false),
+                    IdUser = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false),
                     NickName = table.Column<string>(type: "longtext", nullable: false),
@@ -130,7 +128,7 @@ namespace Infraestructure.Migrations
                     IdOrder = table.Column<Guid>(type: "char(36)", nullable: false),
                     OrderDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     StateCode = table.Column<int>(type: "int", nullable: false),
-                    IdUser = table.Column<string>(type: "varchar(255)", nullable: false)
+                    IdUser = table.Column<string>(type: "varchar(50)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -155,7 +153,7 @@ namespace Infraestructure.Migrations
                 columns: table => new
                 {
                     IdOrder = table.Column<Guid>(type: "char(36)", nullable: false),
-                    IdUser = table.Column<string>(type: "varchar(255)", nullable: false),
+                    IdUser = table.Column<string>(type: "varchar(50)", nullable: false),
                     Reason = table.Column<string>(type: "longtext", nullable: false)
                 },
                 constraints: table =>
@@ -267,27 +265,23 @@ namespace Infraestructure.Migrations
             migrationBuilder.InsertData(
                 table: "Discounts",
                 columns: new[] { "IdDiscount", "Percentage", "StartDate" },
-                values: new object[] { new Guid("270e2cbf-b6bb-4a7f-854a-ef67b8447888"), 50m, new DateTime(2024, 4, 19, 14, 25, 19, 935, DateTimeKind.Local).AddTicks(8915) });
+                values: new object[] { new Guid("0914fd36-c439-4dbd-a366-c3f079d4424e"), 50m, new DateTime(2024, 8, 14, 15, 4, 37, 693, DateTimeKind.Local).AddTicks(3482) });
 
             migrationBuilder.InsertData(
-                table: "Dishes",
-                columns: new[] { "IdDish", "Activated", "Description", "Price" },
-                values: new object[,]
-                {
-                    { 1, true, "Ravioli de ricotta y espinacas con salsa de tomate", 1000m },
-                    { 2, true, "milanesa a la napolitana", 3000m },
-                    { 3, true, "Ceviche de camarón y pescado", 2800m },
-                    { 4, true, "Costillas de cerdo a la barbacoa con salsa ahumada", 357m },
-                    { 5, true, "Paella mixta de mariscos y pollo", 1890m },
-                    { 6, true, "Salmón con verduras salteadas y arroz jazmín", 100m },
-                    { 7, true, "Lasaña de carne y verduras con capas de pasta", 1200m },
-                    { 8, true, "Pechuga de pollo rellena de queso de cabra ", 1500m }
-                });
+                table: "Users",
+                columns: new[] { "IdUser", "BirthDate", "LastName", "Name", "NickName", "Password", "Privilege", "RegistrationDate" },
+                values: new object[] { "admin", new DateTime(1800, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "not use", "admin", "admin", "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918", 1, new DateTime(2024, 8, 14, 15, 4, 37, 693, DateTimeKind.Local).AddTicks(3675) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Authorizations_IdOrder",
                 table: "Authorizations",
                 column: "IdOrder",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Dishes_Description",
+                table: "Dishes",
+                column: "Description",
                 unique: true);
 
             migrationBuilder.CreateIndex(

@@ -45,9 +45,9 @@ namespace Infraestructure.Persistence
 
             //test data
             //TODO delete for production enviroment
-            modelBuilder.ApplyConfiguration(new DishTest());
+            //modelBuilder.ApplyConfiguration(new DishTest());
             modelBuilder.ApplyConfiguration(new DiscountTest());
-            //modelBuilder.ApplyConfiguration(new AdministratorTest());
+            modelBuilder.ApplyConfiguration(new AdministratorTest());
             //modelBuilder.ApplyConfiguration(new UserTest());
         }
     }

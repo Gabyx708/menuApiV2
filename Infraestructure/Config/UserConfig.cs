@@ -10,6 +10,7 @@ namespace Infraestructure.Config
         {
             entityBuilder.HasKey(u => u.IdUser);
 
+            entityBuilder.Property(u => u.IdUser).HasMaxLength(50);
             entityBuilder.Property(u => u.Name).HasMaxLength(50).IsRequired();
             entityBuilder.Property(u => u.LastName).HasMaxLength(30).IsRequired();
             entityBuilder.Property(a => a.BirthDate).IsRequired();
