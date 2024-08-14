@@ -20,18 +20,21 @@ namespace Api.Controllers
         private readonly IGetUsers _getAllUsers;
         private readonly IGetUserByIdQuery _getUserByIdQuery;
         private readonly IChangePassword _changePasswordService;
+        private readonly IGetUserBills _getUserBills;
 
         public UserController(ICreateUserCommand createUserCommand,
                               IGetUserOrdersQuery getUserOrders,
                               IGetUserByIdQuery getUserByIdQuery,
                               IChangePassword changePasswordService,
-                              IGetUsers getAllUsers)
+                              IGetUsers getAllUsers,
+                              IGetUserBills getUserBills)
         {
             _createUserCommand = createUserCommand;
             _getAllUsers = getAllUsers;
             _getUserOrders = getUserOrders;
             _getUserByIdQuery = getUserByIdQuery;
             _changePasswordService = changePasswordService;
+            _getUserBills = getUserBills;
         }
 
         [Authorize]
@@ -128,6 +131,24 @@ namespace Api.Controllers
             var result = _changePasswordService.ChangePassword(request);
 
             if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+
+            return new JsonResult(new SystemResponse
+            {
+                StatusCode = result.StatusCode,
+                Message = result.ErrorMessage
+            })
+            { StatusCode = result.StatusCode };
+        }
+
+        [HttpGet("{id}/bills/year/{year}/month/{month}")]
+        public IActionResult GetUserBillsByMonth(string id,int year,int month)
+        {
+            var result = _getUserBills.GetMonthBill(id, year, month);
+
+            if(result.Success)
             {
                 return Ok(result.Data);
             }

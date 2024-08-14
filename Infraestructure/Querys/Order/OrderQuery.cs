@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces.IOrder;
 using Domain.Dtos;
 using Domain.Entities;
+using Domain.Enums;
 using Infraestructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -91,6 +92,23 @@ namespace Infraestructure.Querys
 
 
             return orders;
+        }
+
+        public List<Order> GetOrderByUserInMonth(string idUser, int year, int month)
+        {
+            DateTime initMonth = new DateTime(year, month, 1);
+            DateTime endMonth = initMonth.AddMonths(1).AddDays(-1);
+
+            var queryOrders = _context.Orders
+                                      .Where(o => o.IdUser == idUser
+                                               && o.OrderDate >= initMonth.Date
+                                               && o.OrderDate <= endMonth.Date
+                                               && o.StateCode == (int)OrderState.Finished)
+                                      .Include(o => o.Receipt)
+                                      .ThenInclude(r => r!.Discount)
+                                      .ToList();
+
+            return queryOrders;
         }
 
     }

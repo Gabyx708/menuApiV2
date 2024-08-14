@@ -27,6 +27,7 @@ using Application.UseCase.V2.Order.GetById;
 using Application.UseCase.V2.User.ChangePassword;
 using Application.UseCase.V2.User.Create;
 using Application.UseCase.V2.User.GetAll;
+using Application.UseCase.V2.User.GetBills;
 using Application.UseCase.V2.User.GetById;
 using Application.UseCase.V2.User.GetOrders;
 using Application.UseCase.V2.User.SignIn;
@@ -77,6 +78,8 @@ namespace Api
 
             //Database
             string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            if (connectionString == null) return;
+
             builder.Services.AddDbContext<MenuAppContext>(options => options.UseMySQL(connectionString));
 
 
@@ -135,6 +138,7 @@ namespace Api
             builder.Services.AddScoped<IGetUserOrdersQuery, GetUserOrders>();
             builder.Services.AddScoped<IGetUserByIdQuery, GetById>();
             builder.Services.AddScoped<IChangePassword, ChangePasswordCommand>();
+            builder.Services.AddScoped<IGetUserBills,GetUserBills>();
             builder.Services.AddScoped<ISignIn>(
                             provider =>
                             {
@@ -152,9 +156,6 @@ namespace Api
             ////autorizaciones pedido
             //builder.Services.AddScoped<IRepositoryAutorizacionPedido, RepositoryAutorizacionPedido>();
 
-
-            ////Costos
-            //builder.Services.AddScoped<ICostoService, CostoService>();
 
 
             //Automatizacion de pedidos

@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <Folder Include="Exceptions\" />
+    <Folder Include="UseCase\V2\Bills\" />
   </ItemGroup>
 
 </Project>

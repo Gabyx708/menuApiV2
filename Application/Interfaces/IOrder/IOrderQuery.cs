@@ -10,5 +10,6 @@ namespace Application.Interfaces.IOrder
         PaginatedList<Order> GetAll(int index,int quantity);
         List<Order> GetOrdersByMenuAndUser(Guid idMenu,string idUser);
         List<Order> GetOrdersByMenu(Guid idMenu);
+        List<Order> GetOrderByUserInMonth(string idUser,int year,int month);
     }
 }
