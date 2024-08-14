@@ -1,5 +1,4 @@
 ﻿using Application.Interfaces.IUser;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Application.UseCase.V2.User.GetById
 {
@@ -14,7 +13,7 @@ namespace Application.UseCase.V2.User.GetById
 
         public Result<UserByIdResponse> GetUser(string id)
         {
-            if (id.IsNullOrEmpty() || id.Length < 3)
+            if (id == null || id.Length < 3)
             {
                 return Result<UserByIdResponse>.ValidationResult($"The user ID format is incorrect");
             }
@@ -24,7 +23,8 @@ namespace Application.UseCase.V2.User.GetById
             try
             {
                 user = userQuery.GetUserById(id);
-            }catch(NullReferenceException)
+            }
+            catch (NullReferenceException)
             {
                 return Result<UserByIdResponse>.NotFoundResult($"The user with ID: {id} does not exist");
             }

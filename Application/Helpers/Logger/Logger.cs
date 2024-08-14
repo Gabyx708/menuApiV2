@@ -24,6 +24,11 @@ namespace Application.Helpers.Logger
             _logger.Information(message, properties);
         }
 
+        public static void LogInformation(string message)
+        {
+            _logger.Information(message);
+        }
+
         public static void LogWarning(string message, params object[] properties)
         {
             _logger.Warning(message, properties);
@@ -32,6 +37,11 @@ namespace Application.Helpers.Logger
         public static void LogError(Exception ex, string message, params object[] properties)
         {
             _logger.Error(ex, message, properties);
+        }
+
+        public static void LogError(string message)
+        {
+            _logger.Error(message);
         }
     }
 }

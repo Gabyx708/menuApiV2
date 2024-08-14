@@ -1,4 +1,5 @@
 ﻿using Application.Common.Models;
+using Application.Helpers.Logger;
 using Application.Interfaces.IMenu;
 using Application.Interfaces.IOrder;
 
@@ -21,6 +22,7 @@ namespace Application.UseCase.V2.Order.Cancel
 
         public Result<SystemResponse> CancelOrderById(string idOrder)
         {
+            Logger.LogInformation("cancel order in progress {idOrder}", idOrder);
 
             Guid idOrderCancel;
             Domain.Entities.Order orderToCancel;

@@ -1,5 +1,6 @@
 ﻿using Application.Common.Models;
 using Application.Helpers.Encrypt;
+using Application.Helpers.Logger;
 using Application.Interfaces.IAuthentication;
 using Application.Interfaces.ISession;
 using Application.Interfaces.IUser;
@@ -22,6 +23,8 @@ namespace Application.UseCase.V2.User.ChangePassword
 
         public Result<SystemResponse> ChangePassword(ChangePasswordRequest request)
         {
+            Logger.LogInformation("change user password in progress: {request}", request.username);
+
 
             var validator = new ChangePasswordValidation();
             var validationResult = validator.Validate(request);

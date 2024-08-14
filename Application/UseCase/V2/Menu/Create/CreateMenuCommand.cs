@@ -1,4 +1,5 @@
-﻿using Application.Interfaces.IMenu;
+﻿using Application.Helpers.Logger;
+using Application.Interfaces.IMenu;
 using Application.UseCase.V2.Menu.GetById;
 using Domain.Entities;
 
@@ -15,6 +16,8 @@ namespace Application.UseCase.V2.Menu.Create
 
         public Result<CreateMenuResponse> CreateMenu(CreateMenuRequest request)
         {
+            Logger.LogInformation("create menu in progress: {request}", request);
+
             var validator = new CreateMenuValidation();
             var validationResult = validator.Validate(request);
 

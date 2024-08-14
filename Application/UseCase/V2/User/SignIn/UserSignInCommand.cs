@@ -1,4 +1,5 @@
 ﻿using Application.Helpers.Encrypt;
+using Application.Helpers.Logger;
 using Application.Interfaces.IAuthentication;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -20,6 +21,7 @@ namespace Application.UseCase.V2.User.SignIn
 
         public Result<SignInResponse> SignIn(SignInRequest request)
         {
+            Logger.LogInformation("user sign in progess {request}", request.UserName);
 
             string Encryptedpassword = Encrypt256.GetSHA256(request.Password);
             Domain.Entities.User authenticateUser;
@@ -27,9 +29,12 @@ namespace Application.UseCase.V2.User.SignIn
             try
             {
                 authenticateUser = authenticacionQuery.AuthenticateUser(request.UserName, Encryptedpassword);
+                Logger.LogInformation("User {UserName} signed in successfully", request.UserName);
+
             }
-            catch(NullReferenceException)
+            catch (NullReferenceException)
             {
+                Logger.LogError($"user sign in failure for {request.UserName}");
                 return Result<SignInResponse>.UnauthrorizedResult("The password or username is incorrect");
             }
 

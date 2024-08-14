@@ -1,4 +1,5 @@
-﻿using Application.Interfaces.IBills;
+﻿using Application.Helpers.Logger;
+using Application.Interfaces.IBills;
 using Application.Interfaces.IOrder;
 using Domain.Enums;
 
@@ -15,6 +16,8 @@ namespace Application.UseCase.V2.Bills
 
         public Result<BillsMonthResponse> GetBillsInMonth(int year, int month)
         {
+            Logger.LogInformation("get bills in progress");
+
             var orders = orderQuery.GetOrdesInMonth(year, month);
             var orderUsersGroup = orders.Where(o => o.StateCode == (int)OrderState.Finished)
                     .GroupBy(o => o.User).ToList();

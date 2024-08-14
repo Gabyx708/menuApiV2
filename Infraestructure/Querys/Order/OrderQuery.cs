@@ -27,7 +27,7 @@ namespace Infraestructure.Querys
         {
             return _context.Orders
                             .Include(o => o.Receipt)
-                            .ThenInclude(r => r.Discount)
+                            .ThenInclude(r => r!.Discount)
                             .Include(o => o.Transitions)
                             .ThenInclude(t => t.InitialState)
                             .Include(o => o.Transitions)

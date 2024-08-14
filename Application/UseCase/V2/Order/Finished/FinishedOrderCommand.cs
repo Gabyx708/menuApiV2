@@ -1,4 +1,5 @@
 ﻿using Application.Common.Models;
+using Application.Helpers.Logger;
 using Application.Interfaces.IDiscount;
 using Application.Interfaces.IOrder;
 using Application.Interfaces.IUnitOfWork;
@@ -24,6 +25,8 @@ namespace Application.UseCase.V2.Order.Finished
 
         public Result<SystemResponse> ChangeOrderStateToFinished(string id)
         {
+            Logger.LogInformation("change order status to finished {id}", id);
+
             int finishedState = (int)OrderState.Finished;
             Guid idOrder;
 

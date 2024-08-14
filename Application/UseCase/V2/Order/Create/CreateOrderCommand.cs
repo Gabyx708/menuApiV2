@@ -1,4 +1,5 @@
-﻿using Application.Interfaces.I;
+﻿using Application.Helpers.Logger;
+using Application.Interfaces.I;
 using Application.Interfaces.IMenu;
 using Application.Interfaces.IOrder;
 using Application.Interfaces.IUnitOfWork;
@@ -27,6 +28,8 @@ namespace Application.UseCase.V2.Order.Create
 
         public Result<CreateOrderResponse> CreateOrder(CreateOrderRequest request)
         {
+            Logger.LogInformation("create order in progress {request}", request);
+
             var validator = new CreateOrderValidation(orderQuery, menuQuery);
             var validationResult = validator.Validate(request);
 
@@ -51,6 +54,8 @@ namespace Application.UseCase.V2.Order.Create
             _unitOfWorkCreateOrder.Save();
 
             var orderRecovered = orderQuery.GetOrderById(newOrder.IdOrder);
+
+            Logger.LogInformation("order created with id: {id}", orderRecovered.IdOrder);
 
             return Result<CreateOrderResponse>.SuccessResult(this.GenerateResponse(orderRecovered));
         }

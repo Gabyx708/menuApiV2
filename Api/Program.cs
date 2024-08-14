@@ -42,6 +42,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MySql.Data.MySqlClient;
 using System.Text;
 
 namespace Api
@@ -66,7 +67,7 @@ namespace Api
 
             if (logPath == null)
             {
-                Console.WriteLine("FAIL: LOG PATH FOR LOGS NULL...");
+                Logger.LogError("FAIL: LOG PATH FOR LOGS NULL...");
                 return;
 
             }
@@ -80,15 +81,38 @@ namespace Api
 
             //Database
             string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            if (connectionString == null) return;
-
-            builder.Services.AddDbContext<MenuAppContext>(options => options.UseMySQL(connectionString));
-
 
             if (connectionString == null)
             {
-                Logger.LogError(null, "connection string not detected");
+                Logger.LogError("connection string not detected");
                 return;
+            }
+
+            builder.Services.AddDbContext<MenuAppContext>(options => options.UseMySQL(connectionString));
+            var builderConnectionString = new MySqlConnectionStringBuilder(connectionString);
+            string host = builderConnectionString.Server;
+
+
+            Logger.LogInformation("Attempting to connect to the database at host: {Host}", host);
+
+            // Intentar probar la conexión
+            try
+            {
+                using var scope = builder.Services.BuildServiceProvider().CreateScope();
+                var context = scope.ServiceProvider.GetRequiredService<MenuAppContext>();
+
+                if (context.Database.CanConnect())
+                {
+                    Logger.LogInformation("Successfully connected to the database at host: {Host}", host);
+                }
+                else
+                {
+                    Logger.LogInformation("Failed to connect to the database at host: {Host}", host);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "An error occurred while attempting to connect to the database at host: {Host}", host);
             }
 
 
@@ -153,19 +177,6 @@ namespace Api
             //Bills
             builder.Services.AddScoped<IGetBillsMonth,GetBillsMonth>();
 
-            ////Recibo
-            //builder.Services.AddScoped<IReciboCommand, ReciboCommand>();
-            //builder.Services.AddScoped<IReciboQuery, ReciboQuery>();
-            //builder.Services.AddScoped<IReciboService, ReciboService>();
-
-            ////autorizaciones pedido
-            //builder.Services.AddScoped<IRepositoryAutorizacionPedido, RepositoryAutorizacionPedido>();
-
-
-
-            //Automatizacion de pedidos
-            //builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
-            //builder.Services.AddScoped<IAutomation, AutomationDelivery>();
 
 
             //UnitOfWork
@@ -226,7 +237,6 @@ namespace Api
 
             var app = builder.Build();
 
-
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -240,10 +250,11 @@ namespace Api
             app.UseAuthentication();
             app.UseAuthorization();
 
-
             app.MapControllers();
 
-            Logger.LogInformation("app runing...", null);
+            Logger.LogInformation("app running..... OK\n");
+
+
             app.Run();
         }
     }

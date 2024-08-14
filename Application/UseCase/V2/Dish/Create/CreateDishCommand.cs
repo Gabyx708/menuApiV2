@@ -1,4 +1,5 @@
-﻿using Application.Interfaces.IDish;
+﻿using Application.Helpers.Logger;
+using Application.Interfaces.IDish;
 using Application.UseCase.V2.Menu.GetById;
 
 namespace Application.UseCase.V2.Dish.Create
@@ -14,6 +15,8 @@ namespace Application.UseCase.V2.Dish.Create
 
         public Result<CreateDishResponse> CreateDish(CreateDishRequest request)
         {
+            Logger.LogInformation("create dish in progress {request}", request);
+
             var validator = new CreateDishValidation();
             var validationResult = validator.Validate(request);
 

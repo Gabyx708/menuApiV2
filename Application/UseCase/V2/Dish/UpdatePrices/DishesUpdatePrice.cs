@@ -1,4 +1,5 @@
 ﻿using Application.Common.Models;
+using Application.Helpers.Logger;
 using Application.Interfaces.IDish;
 
 namespace Application.UseCase.V2.Dish.UpdatePrices
@@ -16,6 +17,9 @@ namespace Application.UseCase.V2.Dish.UpdatePrices
 
         public Result<SystemResponse> UpdateDishesPrices(decimal price)
         {
+            Logger.LogInformation("update dish prices in progress ${price}", price);
+
+
             if (price < 3)
             {
                 return Result<SystemResponse>.ValidationResult("price must be greather than 3");

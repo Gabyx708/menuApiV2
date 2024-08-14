@@ -1,4 +1,5 @@
 ﻿using Application.Helpers.Encrypt;
+using Application.Helpers.Logger;
 using Application.Interfaces.IUser;
 
 namespace Application.UseCase.V2.User.Create
@@ -16,6 +17,8 @@ namespace Application.UseCase.V2.User.Create
 
         public Result<CreateUserResponse> CreateNewMenuUser(CreateUserRequest request)
         {
+            Logger.LogInformation("create user in progress {request}", request);
+
             var validator = new CreateUserValidation(userQuery);
             var validationResult = validator.Validate(request);
 

@@ -1,4 +1,5 @@
-﻿using Application.Interfaces.IOrder;
+﻿using Application.Helpers.Logger;
+using Application.Interfaces.IOrder;
 
 namespace Application.UseCase.V2.Order.GetById
 {
@@ -13,6 +14,8 @@ namespace Application.UseCase.V2.Order.GetById
 
         public Result<OrderByIdResponse> GetOrderResponseById(string idOrder)
         {
+            Logger.LogInformation("get order by id in progress {idOrder}", idOrder);
+
             Guid id;
             bool isGuid = Guid.TryParse(idOrder, out id);
             Domain.Entities.Order order;
