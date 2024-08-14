@@ -11,5 +11,6 @@ namespace Application.Interfaces.IOrder
         List<Order> GetOrdersByMenuAndUser(Guid idMenu,string idUser);
         List<Order> GetOrdersByMenu(Guid idMenu);
         List<Order> GetOrderByUserInMonth(string idUser,int year,int month);
+        List<Order> GetOrdesInMonth(int year, int month);
     }
 }

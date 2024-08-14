@@ -101,9 +101,26 @@ namespace Infraestructure.Querys
 
             var queryOrders = _context.Orders
                                       .Where(o => o.IdUser == idUser
-                                               && o.OrderDate >= initMonth.Date
-                                               && o.OrderDate <= endMonth.Date
+                                               && o.OrderDate.Date >= initMonth.Date
+                                               && o.OrderDate.Date <= endMonth.Date
                                                && o.StateCode == (int)OrderState.Finished)
+                                      .Include(o => o.Receipt)
+                                      .ThenInclude(r => r!.Discount)
+                                      .ToList();
+
+            return queryOrders;
+        }
+
+        public List<Order> GetOrdesInMonth(int year,int month)
+        {
+            DateTime initMonth = new DateTime(year, month, 1);
+            DateTime endMonth = initMonth.AddMonths(1).AddDays(-1);
+
+            var queryOrders = _context.Orders
+                                      .Where(o => o.OrderDate.Date >= initMonth.Date
+                                               && o.OrderDate.Date <= endMonth.Date)
+                                      .Include(o => o.State)
+                                      .Include(o => o.User)
                                       .Include(o => o.Receipt)
                                       .ThenInclude(r => r!.Discount)
                                       .ToList();

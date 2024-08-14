@@ -1,6 +1,7 @@
 using Application.Helpers.Logger;
 using Application.Interfaces.I;
 using Application.Interfaces.IAuthentication;
+using Application.Interfaces.IBills;
 using Application.Interfaces.IDiscount;
 using Application.Interfaces.IDish;
 using Application.Interfaces.IMenu;
@@ -10,6 +11,7 @@ using Application.Interfaces.IReceipt;
 using Application.Interfaces.ISession;
 using Application.Interfaces.IUnitOfWork;
 using Application.Interfaces.IUser;
+using Application.UseCase.V2.Bills;
 using Application.UseCase.V2.Dish.Create;
 using Application.UseCase.V2.Dish.GetByDescription;
 using Application.UseCase.V2.Dish.GetById;
@@ -148,6 +150,9 @@ namespace Api
                              });
 
 
+            //Bills
+            builder.Services.AddScoped<IGetBillsMonth,GetBillsMonth>();
+
             ////Recibo
             //builder.Services.AddScoped<IReciboCommand, ReciboCommand>();
             //builder.Services.AddScoped<IReciboQuery, ReciboQuery>();
@@ -167,9 +172,7 @@ namespace Api
             builder.Services.AddScoped<IUnitOfWorkCreateOrder, UnitOfWorkCreateOrder>();
             builder.Services.AddScoped<IUnitOfWorkFinishedOrder, UnitOfWorkFinishedOrder>();
 
-            //Authentication
-
-
+            //jwt config
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>
              {
